@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eng. Omar Hamdu - الموقع الشخصي</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body class="light-mode">
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <!-- شعار الموقع -->
+            <a href="index.html" class="logo">
+                <span class="logo-text">Eng. Omar Hamdu</span>
+            </a>
+            
+            <!-- أزرار تغيير اللغة -->
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="ar">العربية</button>
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="fr">Français</button>
+            </div>
+            
+            <!-- زر تبديل الوضع الداكن/الفاتح -->
+            <div class="theme-toggle">
+                <button id="themeToggle" class="theme-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>الوضع الداكن</span>
+                </button>
+            </div>
+            
+            <!-- قائمة الصفحات -->
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">الرئيسية</a></li>
+                <li><a href="about.html" class="nav-link">معلومات عني</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">أعمالي <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="websites.html" class="dropdown-item">مشاريع المواقع</a>
+                        <a href="apps.html" class="dropdown-item">مشاريع التطبيقات</a>
+                        <a href="games.html" class="dropdown-item">مشاريع الألعاب</a>
+                        <a href="production.html" class="dropdown-item">مشاريع الإنتاج</a>
+                        <a href="interfaces.html" class="dropdown-item">واجهات</a>
+                        <a href="designs.html" class="dropdown-item">تصميمات</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">شهاداتي <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="certs-coding.html" class="dropdown-item">شهادات البرمجة</a>
+                        <a href="certs-design.html" class="dropdown-item">شهادات التصميم</a>
+                        <a href="certs-other.html" class="dropdown-item">شهادات أخرى</a>
+                    </div>
+                </li>
+                <li><a href="books.html" class="nav-link">كتبي</a></li>
+                <li><a href="advice.html" class="nav-link">نصائح</a></li>
+                <li><a href="challenges.html" class="nav-link">مشاكل واجهتني</a></li>
+                <li><a href="tools.html" class="nav-link">أدواتي</a></li>
+                <li><a href="contact.html" class="nav-link contact-btn">تواصل معي</a></li>
+            </ul>
+            
+            <!-- زر القائمة المختصرة للهواتف -->
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <div class="container">
+            <!-- قسم الترحيب -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">مرحباً، أنا <span class="highlight">عمر حمدو</span></h1>
+                    <p class="hero-subtitle">مهندس برمجيات قيد الإنشاء | مطور متعدد المواهب (Full Stack Creative)</p>
+                    
+                    <!-- عداد سنوات الخبرة -->
+                    <div class="experience-counter">
+                        <div class="counter-box">
+                            <div class="counter-number" id="experienceYears">3</div>
+                            <div class="counter-label">سنة خبرة</div>
+                        </div>
+                        <div class="counter-desc">
+                            <p>بدأت رحلتي في البرمجة والإبداع الرقمي منذ عام <span class="year-highlight">2022</span></p>
+                            <small class="auto-update">(يتم تحديث العداد تلقائياً)</small>
+                        </div>
+                    </div>
+                    
+                    <!-- أزرار الدعوة للإجراء -->
+                    <div class="cta-buttons">
+                        <a href="contact.html" class="btn btn-primary">
+                            <i class="fas fa-envelope"></i> تواصل معي الآن
+                        </a>
+                        <button id="showWorkSections" class="btn btn-secondary">
+                            <i class="fas fa-briefcase"></i> استعرض أقسام أعمالي
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- صورة شخصية (يمكن استبدالها بصورة حقيقية) -->
+                <div class="hero-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-user-circle"></i>
+                        <p>صورة شخصية</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- أقسام الأعمال (تظهر عند الضغط على الزر) -->
+            <section class="work-sections" id="workSections">
+                <h2 class="section-title">أقسام أعمالي</h2>
+                <div class="work-grid">
+                    <a href="websites.html" class="work-card">
+                        <div class="work-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>مشاريع المواقع</h3>
+                        <p>تصميم وتطوير مواقع ويب تفاعلية متكاملة</p>
+                    </a>
+                    
+                    <a href="apps.html" class="work-card">
+                        <div class="work-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>مشاريع التطبيقات</h3>
+                        <p>تطوير تطبيقات للهواتف والأجهزة اللوحية</p>
+                    </a>
+                    
+                    <a href="games.html" class="work-card">
+                        <div class="work-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>مشاريع الألعاب</h3>
+                        <p>تصميم وتطوير ألعاب باستخدام Unity & C#</p>
+                    </a>
+                    
+                    <a href="production.html" class="work-card">
+                        <div class="work-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>مشاريع الإنتاج</h3>
+                        <p>إنتاج فيديوهات ومحتوى بصري احترافي</p>
+                    </a>
+                    
+                    <a href="interfaces.html" class="work-card">
+                        <div class="work-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3>واجهات</h3>
+                        <p>تصميم واجهات مستخدم جذابة وسهلة الاستخدام</p>
+                    </a>
+                    
+                    <a href="designs.html" class="work-card">
+                        <div class="work-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3>تصميمات</h3>
+                        <p>تصميمات جرافيكية وإبداعية متنوعة</p>
+                    </a>
+                </div>
+            </section>
+            
+            <!-- قسم الخدمات المميزة -->
+            <section class="services-section">
+                <h2 class="section-title">لماذا توظيفي يوفر عليك تكاليف إضافية؟</h2>
+                <p class="section-subtitle">أقدم حزمة متكاملة من الخدمات التي تغني عن توظيف عدة مختصين</p>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>تطوير كامل</h3>
+                        <p>أقوم بتطوير الواجهات الأمامية والخلفية للتطبيقات والمواقع، فلا تحتاج لمطورين متعددين.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>تصميم متكامل</h3>
+                        <p>أصمم واجهات المستخدم والتجربة البصرية، مما يغني عن توظيف مصمم جرافيك متخصص.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>إنتاج مرئي</h3>
+                        <p>أنتج فيديوهات ترويجية ومحتوى بصري للمشروع، فلا تحتاج لمونتير أو منتج فيديوهات.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Eng. Omar Hamdu</h3>
+                    <p>مهندس برمجيات قيد الإنشاء | مطور متعدد المواهب</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="about.html">معلومات عني</a></li>
+                        <li><a href="contact.html">تواصل معي</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-social">
+                    <h4>تواصل معي</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; <span id="currentYear">2024</span> | Eng. Omar Hamdu</p>
+                <p class="footer-note">أنا مؤمن بأن المطور الناجح هو "طالب أبدي" (Forever Student)</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

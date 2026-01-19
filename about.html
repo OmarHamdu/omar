@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معلومات عني | Eng. Omar Hamdu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body class="light-mode">
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Eng. Omar Hamdu</span>
+            </a>
+            
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="ar">العربية</button>
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="fr">Français</button>
+            </div>
+            
+            <div class="theme-toggle">
+                <button id="themeToggle" class="theme-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>الوضع الداكن</span>
+                </button>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li><a href="about.html" class="nav-link active">معلومات عني</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">أعمالي <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="websites.html" class="dropdown-item">مشاريع المواقع</a>
+                        <a href="apps.html" class="dropdown-item">مشاريع التطبيقات</a>
+                        <a href="games.html" class="dropdown-item">مشاريع الألعاب</a>
+                        <a href="production.html" class="dropdown-item">مشاريع الإنتاج</a>
+                        <a href="interfaces.html" class="dropdown-item">واجهات</a>
+                        <a href="designs.html" class="dropdown-item">تصميمات</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">شهاداتي <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="certs-coding.html" class="dropdown-item">شهادات البرمجة</a>
+                        <a href="certs-design.html" class="dropdown-item">شهادات التصميم</a>
+                        <a href="certs-other.html" class="dropdown-item">شهادات أخرى</a>
+                    </div>
+                </li>
+                <li><a href="contact.html" class="nav-link contact-btn">تواصل معي</a></li>
+            </ul>
+            
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <div class="container">
+            <!-- عنوان الصفحة -->
+            <div class="page-header">
+                <h1 class="page-title">حيث تلتقي التكنولوجيا بالإبداع</h1>
+                <p class="page-subtitle">تعرف عليّ أكثر: رحلتي، مهاراتي، وفلسفتي في العمل</p>
+            </div>
+            
+            <!-- قسم المقدمة -->
+            <section class="about-section intro-section">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2 class="section-title">مرحباً، أنا عمر</h2>
+                        <p class="lead-text">
+                            مهندس برمجيات قيد الإنشاء ومطور متعدد المواهب (Full Stack Creative).
+                        </p>
+                        <p>
+                            أدرس علوم الحاسب، وأمتلك شغفاً خاصاً بتحويل الأفكار المعقدة إلى منتجات رقمية قابلة للاستخدام. ما يميزني هو قدرتي على رؤية الصورة الكاملة للمشروع؛ فأنا لا أكتب كود الـ Backend والـ Frontend فحسب، بل أهتم بجماليات التصميم وتجربة المستخدم، وحتى الفيديو الترويجي للمشروع.
+                        </p>
+                    </div>
+                    
+                    <div class="about-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-user-tie"></i>
+                            <p>صورة شخصية</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم الأسلحة الرقمية -->
+            <section class="skills-section">
+                <h2 class="section-title">أسلحتي الرقمية</h2>
+                <p class="section-subtitle">مجموعة المهارات التقنية التي أتمتع بها</p>
+                
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>تطوير الألعاب</h3>
+                        <p>Unity & C#</p>
+                        <p class="skill-desc">تصميم وتطوير ألعاب تفاعلية ثنائية وثلاثية الأبعاد</p>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>الويب والتطبيقات</h3>
+                        <p>HTML/CSS/JS & React</p>
+                        <p class="skill-desc">تطوير مواقع وتطبيقات ويب تفاعلية وسريعة الاستجابة</p>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>الإنتاج الإبداعي</h3>
+                        <p>Premiere Pro & Photoshop</p>
+                        <p class="skill-desc">تحرير الفيديو والصور وإنشاء محتوى بصري احترافي</p>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>تطوير الواجهات الخلفية</h3>
+                        <p>Node.js, Python, Databases</p>
+                        <p class="skill-desc">بناء أنظمة خلفية قوية وقواعد بيانات فعالة</p>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>تطوير التطبيقات</h3>
+                        <p>React Native, Flutter</p>
+                        <p class="skill-desc">إنشاء تطبيقات هجينة لأنظمة iOS و Android</p>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3>تصميم واجهات المستخدم</h3>
+                        <p>Figma, Adobe XD</p>
+                        <p class="skill-desc">تصميم واجهات جذابة وسهلة الاستخدام</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم فلسفة التعلم -->
+            <section class="philosophy-section">
+                <div class="philosophy-content">
+                    <div class="philosophy-text">
+                        <h2 class="section-title">طالب أبدي (Forever Student)</h2>
+                        <p>
+                            أسعى دائماً لتعلم أحدث التقنيات، من الأمن السيبراني وحتى أحدث محركات الألعاب، لأن التكنولوجيا لا تتوقف، وأنا كذلك.
+                        </p>
+                        <p class="highlight-text">
+                            أنا مؤمن بأن المطور الناجح هو "طالب أبدي" (Forever Student).
+                        </p>
+                        <p>
+                            أقضي ساعات في التعلم الذاتي، متابعة الدورات التدريبية، وبناء مشاريع جانبية لاختبار تقنيات جديدة. أعتقد أن الفضول والتحدي هما المحركان الرئيسيان للإبداع التقني.
+                        </p>
+                    </div>
+                    
+                    <div class="philosophy-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-graduation-cap"></i>
+                            <p>التعلم المستمر</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم الميزة الأقوى -->
+            <section class="strength-section">
+                <h2 class="section-title">أخبرني بصراحة: ما هي أقوى ميزة في شخصيتي العملية؟</h2>
+                
+                <div class="strength-content">
+                    <div class="strength-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="strength-text">
+                        <h3>القدرة على رؤية الصورة الكاملة</h3>
+                        <p>
+                            أرى المشروع من جميع زواياه: التقنية، التصميمية، التسويقية، وحتى تجربة المستخدم النهائية. 
+                            هذه الرؤية الشاملة تمكنني من تقديم حلول متكاملة تغني عن توظيف عدة مختصين.
+                        </p>
+                        <p class="highlight-box">
+                            <strong>بتوفر عليهم توظيف مصمم ومونتير لأنك بتسد فيهم!</strong> نعم، هذه حقيقية. 
+                            بفضل مهاراتي المتعددة، يمكنني تنفيذ مشروع كامل من الفكرة إلى المنتج النهائي دون الحاجة لفريق كبير.
+                        </p>
+                        <ul class="strength-list">
+                            <li><i class="fas fa-check"></i> تطوير كامل (Frontend + Backend)</li>
+                            <li><i class="fas fa-check"></i> تصميم واجهات المستخدم وتجربة المستخدم</li>
+                            <li><i class="fas fa-check"></i> إنتاج فيديوهات ترويجية ومحتوى بصري</li>
+                            <li><i class="fas fa-check"></i> إدارة المشروع والتواصل مع العميل</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم رؤية للمستقبل -->
+            <section class="vision-section">
+                <h2 class="section-title">رؤيتي للمستقبل</h2>
+                <div class="vision-content">
+                    <p>
+                        أسعى لأن أصبح رائداً في مجال التطوير الإبداعي المتكامل، حيث يمكنني تقديم حلول رقمية شاملة تجمع بين القوة التقنية والجمالية البصرية. 
+                        أهدف إلى إنشاء مشاريع تترك أثراً إيجابياً في حياة المستخدمين وتقدم قيمة حقيقية.
+                    </p>
+                    <div class="cta-box">
+                        <a href="contact.html" class="btn btn-primary">
+                            <i class="fas fa-handshake"></i> دعنا نتعاون معاً
+                        </a>
+                        <a href="websites.html" class="btn btn-secondary">
+                            <i class="fas fa-eye"></i> شاهد أعمالي
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Eng. Omar Hamdu</h3>
+                    <p>مهندس برمجيات قيد الإنشاء | مطور متعدد المواهب</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="about.html">معلومات عني</a></li>
+                        <li><a href="contact.html">تواصل معي</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-social">
+                    <h4>تواصل معي</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; <span id="currentYear">2024</span> | Eng. Omar Hamdu</p>
+                <p class="footer-note">أنا مؤمن بأن المطور الناجح هو "طالب أبدي" (Forever Student)</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
