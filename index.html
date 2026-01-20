@@ -208,32 +208,6 @@
             font-size: 1.5rem;
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .skill-card {
-            background: var(--bg-primary);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 2px solid var(--accent);
-            transition: all 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--shadow);
-        }
-
-        .skill-card h4 {
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -320,20 +294,17 @@
             transform: scale(1.2) rotate(10deg);
         }
 
-        .contact-card h4 {
-            display: none;
-        }
-
-        .contact-card p {
-            display: none;
-        }
-
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             nav { flex-direction: column; gap: 1rem; padding: 1rem; }
             .menu-grid { grid-template-columns: 1fr; }
             .nav-controls { flex-wrap: wrap; justify-content: center; }
+        }
+
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -351,7 +322,7 @@
                 <option value="ja">日本語</option>
             </select>
             <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
-            <button class="btn btn-primary" onclick="showPage('contact')" data-translate="contactMe">Contact Me</button>
+            <button class="btn btn-primary" onclick="showPage('contact')" data-i18n="contactMe">Contact Me</button>
         </div>
     </nav>
 
@@ -360,70 +331,70 @@
         <div class="container">
             <div class="hero">
                 <h1>Eng. Omar Hamdu</h1>
-                <p class="subtitle" data-translate="subtitle">Full Stack Creative Developer</p>
+                <p class="subtitle" data-i18n="subtitle">Full Stack Creative Developer</p>
                 
                 <div class="experience">
                     <h3 id="yearsExp">Years of Experience: Calculating...</h3>
                 </div>
 
                 <div class="cta-buttons">
-                    <button class="btn btn-primary" onclick="showPage('about')" data-translate="aboutMe">About Me</button>
-                    <button class="btn btn-secondary" onclick="showPage('contact')" data-translate="contactMe">Contact Me</button>
-                    <button class="btn btn-secondary" onclick="toggleMenu()" data-translate="workSections">Work Sections</button>
+                    <button class="btn btn-primary" onclick="showPage('about')" data-i18n="aboutMe">About Me</button>
+                    <button class="btn btn-secondary" onclick="showPage('contact')" data-i18n="contactMe">Contact Me</button>
+                    <button class="btn btn-secondary" onclick="toggleMenu()" data-i18n="workSections">Work Sections</button>
                 </div>
 
                 <div class="menu-grid" id="menuGrid" style="display: none;">
                     <div class="menu-card" onclick="showPage('websites')">
                         <h3>🌐</h3>
-                        <p data-translate="websites">Website Projects</p>
+                        <p data-i18n="websites">Website Projects</p>
                     </div>
                     <div class="menu-card" onclick="showPage('apps')">
                         <h3>📱</h3>
-                        <p data-translate="apps">App Projects</p>
+                        <p data-i18n="apps">App Projects</p>
                     </div>
                     <div class="menu-card" onclick="showPage('games')">
                         <h3>🎮</h3>
-                        <p data-translate="games">Game Projects</p>
+                        <p data-i18n="games">Game Projects</p>
                     </div>
                     <div class="menu-card" onclick="showPage('production')">
                         <h3>🎬</h3>
-                        <p data-translate="production">Production Projects</p>
+                        <p data-i18n="production">Production Projects</p>
                     </div>
                     <div class="menu-card" onclick="showPage('interfaces')">
                         <h3>🎨</h3>
-                        <p data-translate="interfaces">UI Interfaces</p>
+                        <p data-i18n="interfaces">UI Interfaces</p>
                     </div>
                     <div class="menu-card" onclick="showPage('designs')">
                         <h3>✏️</h3>
-                        <p data-translate="designs">Designs</p>
+                        <p data-i18n="designs">Designs</p>
                     </div>
                     <div class="menu-card" onclick="showPage('cert-prog')">
                         <h3>📜</h3>
-                        <p data-translate="certProg">Programming Certificates</p>
+                        <p data-i18n="certProg">Programming Certificates</p>
                     </div>
                     <div class="menu-card" onclick="showPage('cert-design')">
                         <h3>🎨</h3>
-                        <p data-translate="certDesign">Design Certificates</p>
+                        <p data-i18n="certDesign">Design Certificates</p>
                     </div>
                     <div class="menu-card" onclick="showPage('cert-other')">
                         <h3>📚</h3>
-                        <p data-translate="certOther">Other Certificates</p>
+                        <p data-i18n="certOther">Other Certificates</p>
                     </div>
                     <div class="menu-card" onclick="showPage('books')">
                         <h3>📖</h3>
-                        <p data-translate="books">My Books</p>
+                        <p data-i18n="books">My Books</p>
                     </div>
                     <div class="menu-card" onclick="showPage('tips')">
                         <h3>💡</h3>
-                        <p data-translate="tips">Tips & Advice</p>
+                        <p data-i18n="tips">Tips & Advice</p>
                     </div>
                     <div class="menu-card" onclick="showPage('challenges')">
                         <h3>⚠️</h3>
-                        <p data-translate="challenges">Challenges I Faced</p>
+                        <p data-i18n="challenges">Challenges I Faced</p>
                     </div>
                     <div class="menu-card" onclick="showPage('tools')">
                         <h3>🛠️</h3>
-                        <p data-translate="tools">Tools I Use</p>
+                        <p data-i18n="tools">Tools I Use</p>
                     </div>
                 </div>
             </div>
@@ -434,40 +405,25 @@
     <div class="page" id="about">
         <div class="container">
             <div class="about-section">
-                <h2 data-translate="aboutTitle">Where Technology Meets Creativity</h2>
+                <h2 data-i18n="aboutTitle">Where Technology Meets Creativity</h2>
                 
                 <div class="about-content">
-                    <p data-translate="aboutIntro">Hello, I'm Omar. A software engineer in the making and a Full Stack Creative developer.</p>
+                    <p data-i18n="aboutIntro">Hello, I'm Omar. A software engineer in the making and a Full Stack Creative developer.</p>
                     
-                    <p data-translate="aboutDesc">I study Computer Science, and I have a special passion for transforming complex ideas into usable digital products. What sets me apart is my ability to see the complete picture of a project; I don't just write Backend and Frontend code, but I care about design aesthetics and user experience, and even the promotional video for the project.</p>
+                    <p style="margin-top: 2rem;" data-i18n="aboutDesc">I study Computer Science, and I have a special passion for transforming complex ideas into usable digital products. What sets me apart is my ability to see the complete picture of a project; I don't just write Backend and Frontend code, but I care about design aesthetics and user experience, and even the promotional video for the project.</p>
 
-                    <h3 data-translate="weaponsTitle">⚔️ My Digital Arsenal:</h3>
-                    
-                    <div class="skills-grid">
-                        <div class="skill-card">
-                            <h4 data-translate="gameDev">🎮 Game Development</h4>
-                            <p>Unity & C#</p>
-                        </div>
-                        <div class="skill-card">
-                            <h4 data-translate="webDev">🌐 Web & Apps</h4>
-                            <p>HTML/CSS/JS & React</p>
-                        </div>
-                        <div class="skill-card">
-                            <h4 data-translate="creative">🎨 Creative Production</h4>
-                            <p>Premiere Pro & Photoshop</p>
-                        </div>
-                    </div>
+                    <p style="margin-top: 1.5rem;" data-i18n="skills">My skills include game development with Unity & C#, web and app development with HTML/CSS/JS & React, and creative production with Premiere Pro & Photoshop.</p>
 
-                    <p style="margin-top: 2rem;" data-translate="learning">I always strive to learn the latest technologies, from cybersecurity to the latest game engines, because technology doesn't stop, and neither do I.</p>
+                    <p style="margin-top: 1.5rem;" data-i18n="learning">I always strive to learn the latest technologies, from cybersecurity to the latest game engines, because technology doesn't stop, and neither do I.</p>
 
-                    <p data-translate="student">I believe that a successful developer is a "Forever Student".</p>
+                    <p data-i18n="student">I believe that a successful developer is a "Forever Student".</p>
 
-                    <p style="font-style: italic; color: var(--accent); margin-top: 2rem;" data-translate="question">You save them from hiring a designer and video editor because you cover those areas? Tell me honestly, what is your strongest professional quality?</p>
+                    <p style="font-style: italic; color: var(--accent); margin-top: 2rem;" data-i18n="question">You save them from hiring a designer and video editor because you cover those areas? Tell me honestly, what is your strongest professional quality?</p>
                 </div>
 
                 <div class="back-btn-container">
-                    <button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button>
-                    <button class="btn btn-secondary" onclick="showPage('contact')" data-translate="contactMe">Contact Me</button>
+                    <button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button>
+                    <button class="btn btn-secondary" onclick="showPage('contact')" data-i18n="contactMe">Contact Me</button>
                 </div>
             </div>
         </div>
@@ -476,638 +432,420 @@
     <!-- Page 3: Websites -->
     <div class="page" id="websites">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="websitesTitle">🌐 Website Projects</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="websitesTitle">🌐 Website Projects</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 4: Apps -->
     <div class="page" id="apps">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="appsTitle">📱 App Projects</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="appsTitle">📱 App Projects</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 5: Games -->
     <div class="page" id="games">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="gamesTitle">🎮 Game Projects</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="gamesTitle">🎮 Game Projects</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 6: Production -->
     <div class="page" id="production">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="productionTitle">🎬 Production Projects</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="productionTitle">🎬 Production Projects</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 7: Interfaces -->
     <div class="page" id="interfaces">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="interfacesTitle">🎨 UI Interfaces</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="interfacesTitle">🎨 UI Interfaces</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 8: Designs -->
     <div class="page" id="designs">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="designsTitle">✏️ Designs</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="designsTitle">✏️ Designs</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 9: Programming Certificates -->
     <div class="page" id="cert-prog">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="certProgTitle">📜 Programming Certificates</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="certProgTitle">📜 Programming Certificates</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 10: Design Certificates -->
     <div class="page" id="cert-design">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="certDesignTitle">🎨 Design & Production Certificates</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="certDesignTitle">🎨 Design & Production Certificates</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 11: Other Certificates -->
     <div class="page" id="cert-other">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="certOtherTitle">📚 Other Certificates</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="certOtherTitle">📚 Other Certificates</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 12: Books -->
     <div class="page" id="books">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="booksTitle">📖 My Books</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="booksTitle">📖 My Books</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 13: Tips -->
     <div class="page" id="tips">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="tipsTitle">💡 Tips & Advice</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="tipsTitle">💡 Tips & Advice</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 14: Challenges -->
     <div class="page" id="challenges">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="challengesTitle">⚠️ Challenges I Faced</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="challengesTitle">⚠️ Challenges I Faced</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 15: Tools -->
     <div class="page" id="tools">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-translate="toolsTitle">🛠️ Tools I Use</h2>
-            <div class="empty-state" data-translate="comingSoon">Content Coming Soon...</div>
-            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button></div>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem;" data-i18n="toolsTitle">🛠️ Tools I Use</h2>
+            <div class="empty-state" data-i18n="comingSoon">Content Coming Soon...</div>
+            <div class="back-btn-container"><button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button></div>
         </div>
     </div>
 
     <!-- Page 16: Contact -->
     <div class="page" id="contact">
         <div class="container">
-            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem; margin-bottom: 2rem;" data-translate="contactTitle">📧 Contact Me</h2>
+            <h2 style="text-align: center; color: var(--accent); font-size: 2.5rem; margin-bottom: 2rem;" data-i18n="contactTitle">📧 Contact Me</h2>
             
             <div class="about-section">
-                <h3 style="text-align: center; color: var(--text-secondary); margin-bottom: 3rem;" data-translate="connectText">Let's Connect! Reach out through any of these platforms:</h3>
+                <h3 style="text-align: center; color: var(--text-secondary); margin-bottom: 3rem;" data-i18n="connectText">Let's Connect! Reach out through any of these platforms:</h3>
                 
                 <div class="contact-grid">
-                    <a href="https://www.linkedin.com/in/omar-hamdu" target="_blank" class="contact-card">
+                    <a href="https://www.linkedin.com/in/omar-hamdu" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #0077B5;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                             </svg>
                         </div>
-                        <h4>LinkedIn</h4>
-                        <p>@omar-hamdu</p>
                     </a>
 
-                    <a href="https://github.com/OmarHamdu" target="_blank" class="contact-card">
+                    <a href="https://github.com/OmarHamdu" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #333;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                             </svg>
                         </div>
-                        <h4>GitHub</h4>
-                        <p>@OmarHamdu</p>
                     </a>
 
-                    <a href="https://www.facebook.com/share/16oWZsJpVE/" target="_blank" class="contact-card">
+                    <a href="https://www.facebook.com/share/16oWZsJpVE/" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #1877F2;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
                             </svg>
                         </div>
-                        <h4>Facebook</h4>
-                        <p data-translate="followMe">Follow Me</p>
                     </a>
 
-                    <a href="https://www.instagram.com/omar_hamdu_1?igsh=MXJpOXozOHBwcWR4bQ==" target="_blank" class="contact-card">
+                    <a href="https://www.instagram.com/omar_hamdu_1?igsh=MXJpOXozOHBwcWR4bQ==" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                             </svg>
                         </div>
-                        <h4>Instagram</h4>
-                        <p>@omar_hamdu_1</p>
                     </a>
 
-                    <a href="https://www.youtube.com/@omarhmadu" target="_blank" class="contact-card">
+                    <a href="https://www.youtube.com/@omarhmadu" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #FF0000;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                             </svg>
                         </div>
-                        <h4>YouTube</h4>
-                        <p>@omarhmadu</p>
                     </a>
 
-                    <a href="https://www.tiktok.com/@omarhamdu1" target="_blank" class="contact-card">
+                    <a href="https://www.tiktok.com/@omarhamdu1" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #000;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
                             </svg>
                         </div>
-                        <h4>TikTok</h4>
-                        <p>@omarhamdu1</p>
                     </a>
 
-                    <a href="https://t.me/OamrHamdi" target="_blank" class="contact-card">
+                    <a href="https://t.me/OamrHamdi" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #0088cc;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                             </svg>
                         </div>
-                        <h4>Telegram</h4>
-                        <p>@OamrHamdi</p>
                     </a>
 
-                    <a href="https://t.me/Gaming402" target="_blank" class="contact-card">
+                    <a href="https://t.me/Gaming402" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #0088cc;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                             </svg>
                         </div>
-                        <h4>Telegram</h4>
-                        <p>@Gaming402</p>
                     </a>
 
-                    <a href="https://wa.me/201508874734" target="_blank" class="contact-card">
+                    <a href="https://wa.me/201508874734" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #25D366;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                             </svg>
                         </div>
-                        <h4>WhatsApp</h4>
-                        <p>+20 150 887 4734</p>
                     </a>
 
-                    <a href="https://wa.me/201551383361" target="_blank" class="contact-card">
+                    <a href="https://wa.me/201551383361" target="_blank" rel="noopener noreferrer" class="contact-card">
                         <div class="contact-icon" style="background: #25D366;">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                             </svg>
                         </div>
-                        <h4>WhatsApp</h4>
-                        <p>+20 155 138 3361</p>
                     </a>
                 </div>
             </div>
 
             <div class="back-btn-container">
-                <button class="btn btn-primary" onclick="showPage('home')" data-translate="backHome">Back to Home</button>
+                <button class="btn btn-primary" onclick="showPage('home')" data-i18n="backHome">Back to Home</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Translations
-        const translations = {
-            en: {
-                subtitle: "Full Stack Creative Developer",
-                yearsExp: "Years of Experience:",
-                contactMe: "Contact Me",
-                aboutMe: "About Me",
-                workSections: "Work Sections",
-                backHome: "Back to Home",
-                comingSoon: "Content Coming Soon...",
-                
-                websites: "Website Projects",
-                apps: "App Projects",
-                games: "Game Projects",
-                production: "Production Projects",
-                interfaces: "UI Interfaces",
-                designs: "Designs",
-                certProg: "Programming Certificates",
-                certDesign: "Design Certificates",
-                certOther: "Other Certificates",
-                books: "My Books",
-                tips: "Tips & Advice",
-                challenges: "Challenges I Faced",
-                tools: "Tools I Use",
-                
-                websitesTitle: "🌐 Website Projects",
-                appsTitle: "📱 App Projects",
-                gamesTitle: "🎮 Game Projects",
-                productionTitle: "🎬 Production Projects",
-                interfacesTitle: "🎨 UI Interfaces",
-                designsTitle: "✏️ Designs",
-                certProgTitle: "📜 Programming Certificates",
-                certDesignTitle: "🎨 Design & Production Certificates",
-                certOtherTitle: "📚 Other Certificates",
-                booksTitle: "📖 My Books",
-                tipsTitle: "💡 Tips & Advice",
-                challengesTitle: "⚠️ Challenges I Faced",
-                toolsTitle: "🛠️ Tools I Use",
-                contactTitle: "📧 Contact Me",
-                
-                aboutTitle: "Where Technology Meets Creativity",
-                aboutIntro: "Hello, I'm Omar. A software engineer in the making and a Full Stack Creative developer.",
-                aboutDesc: "I study Computer Science, and I have a special passion for transforming complex ideas into usable digital products. What sets me apart is my ability to see the complete picture of a project; I don't just write Backend and Frontend code, but I care about design aesthetics and user experience, and even the promotional video for the project.",
-                weaponsTitle: "⚔️ My Digital Arsenal:",
-                gameDev: "🎮 Game Development",
-                webDev: "🌐 Web & Apps",
-                creative: "🎨 Creative Production",
-                learning: "I always strive to learn the latest technologies, from cybersecurity to the latest game engines, because technology doesn't stop, and neither do I.",
-                student: "I believe that a successful developer is a 'Forever Student'.",
-                question: "You save them from hiring a designer and video editor because you cover those areas? Tell me honestly, what is your strongest professional quality?",
-                connectText: "Let's Connect! Reach out through any of these platforms:",
-                followMe: "Follow Me"
-            },
-            ar: {
-                subtitle: "مطور متعدد المواهب",
-                yearsExp: "سنوات الخبرة:",
-                contactMe: "تواصل معي",
-                aboutMe: "معلومات عني",
-                workSections: "أقسام الأعمال",
-                backHome: "العودة للرئيسية",
-                comingSoon: "المحتوى قريباً...",
-                
-                websites: "مشاريع المواقع",
-                apps: "مشاريع التطبيقات",
-                games: "مشاريع الألعاب",
-                production: "مشاريع المنتاج",
-                interfaces: "واجهات",
-                designs: "تصميمات",
-                certProg: "شهادات البرمجة",
-                certDesign: "شهادات التصميم",
-                certOther: "شهادات أخرى",
-                books: "كتب لي",
-                tips: "نصائح",
-                challenges: "مشاكل واجهتني",
-                tools: "أدوات أستخدمها",
-                
-                websitesTitle: "🌐 مشاريع المواقع",
-                appsTitle: "📱 مشاريع التطبيقات",
-                gamesTitle: "🎮 مشاريع الألعاب",
-                productionTitle: "🎬 مشاريع المنتاج",
-                interfacesTitle: "🎨 واجهات",
-                designsTitle: "✏️ تصميمات",
-                certProgTitle: "📜 شهادات البرمجة",
-                certDesignTitle: "🎨 شهادات المنتاج والتصميم",
-                certOtherTitle: "📚 شهادات في مجالات أخرى",
-                booksTitle: "📖 كتب لي",
-                tipsTitle: "💡 نصائح",
-                challengesTitle: "⚠️ مشاكل واجهتني",
-                toolsTitle: "🛠️ أدوات أستخدمها",
-                contactTitle: "📧 تواصل معي",
-                
-                aboutTitle: "حيث تلتقي التكنولوجيا بالإبداع",
-                aboutIntro: "مرحباً، أنا عمر. مهندس برمجيات قيد الإنشاء ومطور متعدد المواهب (Full Stack Creative).",
-                aboutDesc: "أدرس علوم الحاسب، وأمتلك شغفاً خاصاً بتحويل الأفكار المعقدة إلى منتجات رقمية قابلة للاستخدام. ما يميزني هو قدرتي على رؤية الصورة الكاملة للمشروع؛ فأنا لا أكتب كود الـ Backend والـ Frontend فحسب، بل أهتم بجماليات التصميم وتجربة المستخدم، وحتى الفيديو الترويجي للمشروع.",
-                weaponsTitle: "⚔️ أسلحتي الرقمية:",
-                gameDev: "🎮 تطوير الألعاب",
-                webDev: "🌐 الويب والتطبيقات",
-                creative: "🎨 الإنتاج الإبداعي",
-                learning: "أسعى دائماً لتعلم أحدث التقنيات، من الأمن السيبراني وحتى أحدث محركات الألعاب، لأن التكنولوجيا لا تتوقف، وأنا كذلك.",
-                student: "وأنا مؤمن بأن المطور الناجح هو 'طالب أبدي' (Forever Student).",
-                question: "بتوفر عليهم توظيف مصمم ومونتير لأنك بتسد فيهم؟ أخبرني بصراحة ما هي أقوى ميزة في شخصيتك العملية.",
-                connectText: "لنتواصل! تواصل معي عبر أي من هذه المنصات:",
-                followMe: "تابعني"
-            },
-            fr: {
-                subtitle: "Développeur Full Stack Créatif",
-                yearsExp: "Années d'expérience:",
-                contactMe: "Me Contacter",
-                aboutMe: "À Propos",
-                workSections: "Sections de Travail",
-                backHome: "Retour Accueil",
-                comingSoon: "Contenu à venir...",
-                
-                websites: "Projets Web",
-                apps: "Projets Apps",
-                games: "Projets Jeux",
-                production: "Projets Production",
-                interfaces: "Interfaces UI",
-                designs: "Designs",
-                certProg: "Certificats Prog.",
-                certDesign: "Certificats Design",
-                certOther: "Autres Certificats",
-                books: "Mes Livres",
-                tips: "Conseils",
-                challenges: "Défis Rencontrés",
-                tools: "Outils Utilisés",
-                
-                websitesTitle: "🌐 Projets Web",
-                appsTitle: "📱 Projets Applications",
-                gamesTitle: "🎮 Projets Jeux",
-                productionTitle: "🎬 Projets Production",
-                interfacesTitle: "🎨 Interfaces UI",
-                designsTitle: "✏️ Designs",
-                certProgTitle: "📜 Certificats de Programmation",
-                certDesignTitle: "🎨 Certificats Design & Production",
-                certOtherTitle: "📚 Autres Certificats",
-                booksTitle: "📖 Mes Livres",
-                tipsTitle: "💡 Conseils",
-                challengesTitle: "⚠️ Défis Rencontrés",
-                toolsTitle: "🛠️ Outils Utilisés",
-                contactTitle: "📧 Me Contacter",
-                
-                aboutTitle: "Où la Technologie Rencontre la Créativité",
-                aboutIntro: "Bonjour, je suis Omar. Ingénieur logiciel en formation et développeur Full Stack créatif.",
-                aboutDesc: "J'étudie l'informatique avec une passion pour transformer des idées complexes en produits numériques utilisables.",
-                weaponsTitle: "⚔️ Mon Arsenal Numérique:",
-                gameDev: "🎮 Développement Jeux",
-                webDev: "🌐 Web & Apps",
-                creative: "🎨 Production Créative",
-                learning: "Je m'efforce d'apprendre les dernières technologies.",
-                student: "Je crois qu'un développeur à succès est un 'Étudiant Éternel'.",
-                question: "Quelle est votre plus grande qualité professionnelle?",
-                connectText: "Connectons-nous! Contactez-moi via l'une de ces plateformes:",
-                followMe: "Suivez-moi"
-            },
-            de: {
-                subtitle: "Full Stack Creative Entwickler",
-                yearsExp: "Jahre Erfahrung:",
-                contactMe: "Kontakt",
-                aboutMe: "Über Mich",
-                workSections: "Arbeitsbereiche",
-                backHome: "Zurück",
-                comingSoon: "Inhalt kommt bald...",
-                
-                websites: "Website-Projekte",
-                apps: "App-Projekte",
-                games: "Spielprojekte",
-                production: "Produktionsprojekte",
-                interfaces: "UI-Interfaces",
-                designs: "Designs",
-                certProg: "Prog. Zertifikate",
-                certDesign: "Design Zertifikate",
-                certOther: "Andere Zertifikate",
-                books: "Meine Bücher",
-                tips: "Tipps",
-                challenges: "Herausforderungen",
-                tools: "Werkzeuge",
-                
-                websitesTitle: "🌐 Website-Projekte",
-                appsTitle: "📱 App-Projekte",
-                gamesTitle: "🎮 Spielprojekte",
-                productionTitle: "🎬 Produktionsprojekte",
-                interfacesTitle: "🎨 UI-Interfaces",
-                designsTitle: "✏️ Designs",
-                certProgTitle: "📜 Programmierzertifikate",
-                certDesignTitle: "🎨 Design & Produktionszertifikate",
-                certOtherTitle: "📚 Andere Zertifikate",
-                booksTitle: "📖 Meine Bücher",
-                tipsTitle: "💡 Tipps",
-                challengesTitle: "⚠️ Herausforderungen",
-                toolsTitle: "🛠️ Verwendete Werkzeuge",
-                contactTitle: "📧 Kontakt",
-                
-                aboutTitle: "Wo Technologie auf Kreativität trifft",
-                aboutIntro: "Hallo, ich bin Omar. Ein Software-Ingenieur in Ausbildung.",
-                aboutDesc: "Ich studiere Informatik mit Leidenschaft für digitale Produkte.",
-                weaponsTitle: "⚔️ Mein Digitales Arsenal:",
-                gameDev: "🎮 Spieleentwicklung",
-                webDev: "🌐 Web & Apps",
-                creative: "🎨 Kreative Produktion",
-                learning: "Ich strebe danach, die neuesten Technologien zu lernen.",
-                student: "Ich glaube, dass ein erfolgreicher Entwickler ein 'Ewiger Student' ist.",
-                question: "Was ist Ihre größte berufliche Stärke?",
-                connectText: "Lassen Sie uns verbinden! Kontaktieren Sie mich über eine dieser Plattformen:",
-                followMe: "Folgen Sie mir"
-            },
-            es: {
-                subtitle: "Desarrollador Full Stack Creativo",
-                yearsExp: "Años de experiencia:",
-                contactMe: "Contáctame",
-                aboutMe: "Sobre Mí",
-                workSections: "Secciones de Trabajo",
-                backHome: "Volver al Inicio",
-                comingSoon: "Contenido próximamente...",
-                
-                websites: "Proyectos Web",
-                apps: "Proyectos Apps",
-                games: "Proyectos Juegos",
-                production: "Proyectos Producción",
-                interfaces: "Interfaces UI",
-                designs: "Diseños",
-                certProg: "Certificados Prog.",
-                certDesign: "Certificados Diseño",
-                certOther: "Otros Certificados",
-                books: "Mis Libros",
-                tips: "Consejos",
-                challenges: "Desafíos",
-                tools: "Herramientas",
-                
-                websitesTitle: "🌐 Proyectos Web",
-                appsTitle: "📱 Proyectos de Aplicaciones",
-                gamesTitle: "🎮 Proyectos de Juegos",
-                productionTitle: "🎬 Proyectos de Producción",
-                interfacesTitle: "🎨 Interfaces UI",
-                designsTitle: "✏️ Diseños",
-                certProgTitle: "📜 Certificados de Programación",
-                certDesignTitle: "🎨 Certificados Diseño & Producción",
-                certOtherTitle: "📚 Otros Certificados",
-                booksTitle: "📖 Mis Libros",
-                tipsTitle: "💡 Consejos",
-                challengesTitle: "⚠️ Desafíos Enfrentados",
-                toolsTitle: "🛠️ Herramientas que Uso",
-                contactTitle: "📧 Contáctame",
-                
-                aboutTitle: "Donde la Tecnología se Encuentra con la Creatividad",
-                aboutIntro: "Hola, soy Omar. Ingeniero de software en formación.",
-                aboutDesc: "Estudio Ciencias de la Computación con pasión por productos digitales.",
-                weaponsTitle: "⚔️ Mi Arsenal Digital:",
-                gameDev: "🎮 Desarrollo de Juegos",
-                webDev: "🌐 Web & Apps",
-                creative: "🎨 Producción Creativa",
-                learning: "Siempre me esfuerzo por aprender las últimas tecnologías.",
-                student: "Creo que un desarrollador exitoso es un 'Estudiante Eterno'.",
-                question: "¿Cuál es tu mayor cualidad profesional?",
-                connectText: "¡Conectemos! Contáctame a través de cualquiera de estas plataformas:",
-                followMe: "Sígueme"
-            },
-            pt: {
-                subtitle: "Desenvolvedor Full Stack Criativo",
-                yearsExp: "Anos de experiência:",
-                contactMe: "Contacte-me",
-                aboutMe: "Sobre Mim",
-                workSections: "Seções de Trabalho",
-                backHome: "Voltar ao Início",
-                comingSoon: "Conteúdo em breve...",
-                
-                websites: "Projetos Web",
-                apps: "Projetos Apps",
-                games: "Projetos Jogos",
-                production: "Projetos Produção",
-                interfaces: "Interfaces UI",
-                designs: "Designs",
-                certProg: "Certificados Prog.",
-                certDesign: "Certificados Design",
-                certOther: "Outros Certificados",
-                books: "Meus Livros",
-                tips: "Dicas",
-                challenges: "Desafios",
-                tools: "Ferramentas",
-                
-                websitesTitle: "🌐 Projetos Web",
-                appsTitle: "📱 Projetos de Aplicativos",
-                gamesTitle: "🎮 Projetos de Jogos",
-                productionTitle: "🎬 Projetos de Produção",
-                interfacesTitle: "🎨 Interfaces UI",
-                designsTitle: "✏️ Designs",
-                certProgTitle: "📜 Certificados de Programação",
-                certDesignTitle: "🎨 Certificados Design & Produção",
-                certOtherTitle: "📚 Outros Certificados",
-                booksTitle: "📖 Meus Livros",
-                tipsTitle: "💡 Dicas",
-                challengesTitle: "⚠️ Desafios Enfrentados",
-                toolsTitle: "🛠️ Ferramentas que Uso",
-                contactTitle: "📧 Contacte-me",
-                
-                aboutTitle: "Onde a Tecnologia Encontra a Criatividade",
-                aboutIntro: "Olá, eu sou Omar. Engenheiro de software em formação.",
-                aboutDesc: "Estudo Ciência da Computação com paixão por produtos digitais.",
-                weaponsTitle: "⚔️ Meu Arsenal Digital:",
-                gameDev: "🎮 Desenvolvimento de Jogos",
-                webDev: "🌐 Web & Apps",
-                creative: "🎨 Produção Criativa",
-                learning: "Sempre me esforço para aprender as últimas tecnologias.",
-                student: "Acredito que um desenvolvedor bem-sucedido é um 'Estudante Eterno'.",
-                question: "Qual é sua maior qualidade profissional?",
-                connectText: "Vamos Conectar! Entre em contato através de qualquer uma destas plataformas:",
-                followMe: "Siga-me"
-            },
-            ja: {
-                subtitle: "フルスタッククリエイティブ開発者",
-                yearsExp: "経験年数：",
-                contactMe: "お問い合わせ",
-                aboutMe: "私について",
-                workSections: "作品セクション",
-                backHome: "ホームに戻る",
-                comingSoon: "コンテンツは近日公開...",
-                
-                websites: "ウェブサイトプロジェクト",
-                apps: "アプリプロジェクト",
-                games: "ゲームプロジェクト",
-                production: "制作プロジェクト",
-                interfaces: "UIインターフェース",
-                designs: "デザイン",
-                certProg: "プログラミング証明書",
-                certDesign: "デザイン証明書",
-                certOther: "その他の証明書",
-                books: "私の本",
-                tips: "ヒントとアドバイス",
-                challenges: "直面した課題",
-                tools: "使用ツール",
-                
-                websitesTitle: "🌐 ウェブサイトプロジェクト",
-                appsTitle: "📱 アプリプロジェクト",
-                gamesTitle: "🎮 ゲームプロジェクト",
-                productionTitle: "🎬 制作プロジェクト",
-                interfacesTitle: "🎨 UIインターフェース",
-                designsTitle: "✏️ デザイン",
-                certProgTitle: "📜 プログラミング証明書",
-                certDesignTitle: "🎨 デザイン＆制作証明書",
-                certOtherTitle: "📚 その他の証明書",
-                booksTitle: "📖 私の本",
-                tipsTitle: "💡 ヒントとアドバイス",
-                challengesTitle: "⚠️ 直面した課題",
-                toolsTitle: "🛠️ 使用ツール",
-                contactTitle: "📧 お問い合わせ",
-                
-                aboutTitle: "テクノロジーと創造性が出会う場所",
-                aboutIntro: "こんにちは、私はオマルです。ソフトウェアエンジニア候補生です。",
-                aboutDesc: "コンピュータサイエンスを学び、デジタル製品への情熱を持っています。",
-                weaponsTitle: "⚔️ 私のデジタル武器：",
-                gameDev: "🎮 ゲーム開発",
-                webDev: "🌐 ウェブ＆アプリ",
-                creative: "🎨 クリエイティブ制作",
-                learning: "常に最新の技術を学ぶよう努めています。",
-                student: "成功する開発者は「永遠の学生」だと信じています。",
-                question: "あなたの最大の職業的資質は何ですか？",
-                connectText: "つながりましょう！これらのプラットフォームのいずれかを通じてご連絡ください：",
-                followMe: "フォローしてください"
-            }
+        // English translations (base language)
+        const baseTranslations = {
+            subtitle: "Full Stack Creative Developer",
+            yearsExp: "Years of Experience:",
+            contactMe: "Contact Me",
+            aboutMe: "About Me",
+            workSections: "Work Sections",
+            backHome: "Back to Home",
+            comingSoon: "Content Coming Soon...",
+            websites: "Website Projects",
+            apps: "App Projects",
+            games: "Game Projects",
+            production: "Production Projects",
+            interfaces: "UI Interfaces",
+            designs: "Designs",
+            certProg: "Programming Certificates",
+            certDesign: "Design Certificates",
+            certOther: "Other Certificates",
+            books: "My Books",
+            tips: "Tips & Advice",
+            challenges: "Challenges I Faced",
+            tools: "Tools I Use",
+            websitesTitle: "🌐 Website Projects",
+            appsTitle: "📱 App Projects",
+            gamesTitle: "🎮 Game Projects",
+            productionTitle: "🎬 Production Projects",
+            interfacesTitle: "🎨 UI Interfaces",
+            designsTitle: "✏️ Designs",
+            certProgTitle: "📜 Programming Certificates",
+            certDesignTitle: "🎨 Design & Production Certificates",
+            certOtherTitle: "📚 Other Certificates",
+            booksTitle: "📖 My Books",
+            tipsTitle: "💡 Tips & Advice",
+            challengesTitle: "⚠️ Challenges I Faced",
+            toolsTitle: "🛠️ Tools I Use",
+            contactTitle: "📧 Contact Me",
+            aboutTitle: "Where Technology Meets Creativity",
+            aboutIntro: "Hello, I'm Omar. A software engineer in the making and a Full Stack Creative developer.",
+            aboutDesc: "I study Computer Science, and I have a special passion for transforming complex ideas into usable digital products. What sets me apart is my ability to see the complete picture of a project; I don't just write Backend and Frontend code, but I care about design aesthetics and user experience, and even the promotional video for the project.",
+            skills: "My skills include game development with Unity & C#, web and app development with HTML/CSS/JS & React, and creative production with Premiere Pro & Photoshop.",
+            learning: "I always strive to learn the latest technologies, from cybersecurity to the latest game engines, because technology doesn't stop, and neither do I.",
+            student: "I believe that a successful developer is a 'Forever Student'.",
+            question: "You save them from hiring a designer and video editor because you cover those areas? Tell me honestly, what is your strongest professional quality?",
+            connectText: "Let's Connect! Reach out through any of these platforms:"
+        };
+
+        // Arabic translations (manually added for quality)
+        const arTranslations = {
+            subtitle: "مطور متعدد المواهب",
+            yearsExp: "سنوات الخبرة:",
+            contactMe: "تواصل معي",
+            aboutMe: "معلومات عني",
+            workSections: "أقسام الأعمال",
+            backHome: "العودة للرئيسية",
+            comingSoon: "المحتوى قريباً...",
+            websites: "مشاريع المواقع",
+            apps: "مشاريع التطبيقات",
+            games: "مشاريع الألعاب",
+            production: "مشاريع المنتاج",
+            interfaces: "واجهات",
+            designs: "تصميمات",
+            certProg: "شهادات البرمجة",
+            certDesign: "شهادات التصميم",
+            certOther: "شهادات أخرى",
+            books: "كتب لي",
+            tips: "نصائح",
+            challenges: "مشاكل واجهتني",
+            tools: "أدوات أستخدمها",
+            websitesTitle: "🌐 مشاريع المواقع",
+            appsTitle: "📱 مشاريع التطبيقات",
+            gamesTitle: "🎮 مشاريع الألعاب",
+            productionTitle: "🎬 مشاريع المنتاج",
+            interfacesTitle: "🎨 واجهات",
+            designsTitle: "✏️ تصميمات",
+            certProgTitle: "📜 شهادات البرمجة",
+            certDesignTitle: "🎨 شهادات المنتاج والتصميم",
+            certOtherTitle: "📚 شهادات في مجالات أخرى",
+            booksTitle: "📖 كتب لي",
+            tipsTitle: "💡 نصائح",
+            challengesTitle: "⚠️ مشاكل واجهتني",
+            toolsTitle: "🛠️ أدوات أستخدمها",
+            contactTitle: "📧 تواصل معي",
+            aboutTitle: "حيث تلتقي التكنولوجيا بالإبداع",
+            aboutIntro: "مرحباً، أنا عمر. مهندس برمجيات قيد الإنشاء ومطور متعدد المواهب.",
+            aboutDesc: "أدرس علوم الحاسب، وأمتلك شغفاً خاصاً بتحويل الأفكار المعقدة إلى منتجات رقمية قابلة للاستخدام. ما يميزني هو قدرتي على رؤية الصورة الكاملة للمشروع؛ فأنا لا أكتب كود الـ Backend والـ Frontend فحسب، بل أهتم بجماليات التصميم وتجربة المستخدم، وحتى الفيديو الترويجي للمشروع.",
+            skills: "مهاراتي تشمل تطوير الألعاب بـ Unity & C#، وتطوير الويب والتطبيقات بـ HTML/CSS/JS & React، والإنتاج الإبداعي بـ Premiere Pro & Photoshop.",
+            learning: "أسعى دائماً لتعلم أحدث التقنيات، من الأمن السيبراني وحتى أحدث محركات الألعاب، لأن التكنولوجيا لا تتوقف، وأنا كذلك.",
+            student: "وأنا مؤمن بأن المطور الناجح هو 'طالب أبدي'.",
+            question: "بتوفر عليهم توظيف مصمم ومونتير لأنك بتسد فيهم؟ أخبرني بصراحة ما هي أقوى ميزة في شخصيتك العملية.",
+            connectText: "لنتواصل! تواصل معي عبر أي من هذه المنصات:"
+        };
+
+        // Cache for translated content
+        const translationCache = {
+            en: baseTranslations,
+            ar: arTranslations
         };
 
         let currentLang = 'en';
+        let isTranslating = false;
 
-        // Update page text based on language
-        function updateLanguage(lang) {
-            currentLang = lang;
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        // Auto-translate function using MyMemory API
+        async function translateText(text, targetLang) {
+            if (!text || targetLang === 'en') return text;
             
-            const trans = translations[lang];
-            document.querySelectorAll('[data-translate]').forEach(el => {
-                const key = el.getAttribute('data-translate');
+            try {
+                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.responseStatus === 200) {
+                    return data.responseData.translatedText;
+                }
+                return text;
+            } catch (error) {
+                console.error('Translation error:', error);
+                return text;
+            }
+        }
+
+        // Translate all content
+        async function translatePage(lang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            
+            document.body.classList.add('loading');
+            
+            // Check cache first
+            if (!translationCache[lang]) {
+                translationCache[lang] = {};
+                
+                // Translate all base texts
+                const promises = Object.entries(baseTranslations).map(async ([key, text]) => {
+                    translationCache[lang][key] = await translateText(text, lang);
+                });
+                
+                await Promise.all(promises);
+            }
+            
+            // Apply translations
+            const trans = translationCache[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
                 if (trans[key]) {
-                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = trans[key];
-                    } else {
-                        el.textContent = trans[key];
-                    }
+                    el.textContent = trans[key];
                 }
             });
+            
+            document.body.classList.remove('loading');
+            isTranslating = false;
             
             calcExp();
         }
 
-        // Calculate years of experience
+        // Update language
+        async function updateLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            await translatePage(lang);
+        }
+
+        // Calculate years of experience (Real-time counter)
         function calcExp() {
-            const start = new Date('2022-01-01');
+            const start = new Date('2022-08-05T00:00:00');
             const now = new Date();
             const diff = now - start;
-            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
             
-            const trans = translations[currentLang];
-            const yearWord = currentLang === 'ar' 
-                ? (years === 1 ? 'سنة' : years === 2 ? 'سنتان' : 'سنوات')
-                : (years === 1 ? 'Year' : 'Years');
+            // Calculate years, months, and days
+            const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const years = Math.floor(totalDays / 365.25);
+            const months = Math.floor((totalDays % 365.25) / 30.44);
+            const days = Math.floor((totalDays % 365.25) % 30.44);
             
-            document.getElementById('yearsExp').textContent = `${trans.yearsExp} ${years} ${yearWord}`;
+            const trans = translationCache[currentLang] || baseTranslations;
+            
+            let expText = '';
+            if (currentLang === 'ar') {
+                const yearWord = years === 1 ? 'سنة' : years === 2 ? 'سنتان' : 'سنوات';
+                const monthWord = months === 1 ? 'شهر' : months === 2 ? 'شهران' : 'أشهر';
+                const dayWord = days === 1 ? 'يوم' : days === 2 ? 'يومان' : 'أيام';
+                
+                expText = `${trans.yearsExp} ${years} ${yearWord}`;
+                if (months > 0) expText += `, ${months} ${monthWord}`;
+                if (days > 0) expText += `, ${days} ${dayWord}`;
+            } else {
+                const yearWord = years === 1 ? 'Year' : 'Years';
+                const monthWord = months === 1 ? 'Month' : 'Months';
+                const dayWord = days === 1 ? 'Day' : 'Days';
+                
+                expText = `${trans.yearsExp} ${years} ${yearWord}`;
+                if (months > 0) expText += `, ${months} ${monthWord}`;
+                if (days > 0) expText += `, ${days} ${dayWord}`;
+            }
+            
+            document.getElementById('yearsExp').textContent = expText;
         }
         
+        // Update experience counter every day
         calcExp();
+        setInterval(calcExp, 1000 * 60 * 60 * 24);
 
         // Theme toggle
         const themeBtn = document.getElementById('themeToggle');
@@ -1124,7 +862,6 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
-            // Hide menu when navigating away from home
             if (pageId !== 'home') {
                 const menu = document.getElementById('menuGrid');
                 menu.style.display = 'none';
@@ -1140,9 +877,12 @@
         }
 
         // Language selector
-        document.getElementById('langSelect').addEventListener('change', (e) => {
-            updateLanguage(e.target.value);
+        document.getElementById('langSelect').addEventListener('change', async (e) => {
+            await updateLanguage(e.target.value);
         });
+
+        // Initialize
+        updateLanguage('en');
     </script>
 </body>
 </html>
