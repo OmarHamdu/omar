@@ -24,7 +24,9 @@
             --text-secondary: #b0b0d0;
             --accent-primary: #00f2ff; /* Cyan */
             --accent-secondary: #7000ff; /* Deep Purple */
-            --accent-third: #ff0055; /* Pink/Red for Tools */
+            --accent-third: #ff0055; /* Pink/Red */
+            --accent-green: #00ff9d;
+            --accent-orange: #ffbd00;
             --font-en: 'Outfit', sans-serif;
             --font-ar: 'Cairo', sans-serif;
             --card-radius: 24px;
@@ -45,20 +47,31 @@
 
         /* RTL Specifics */
         [dir="rtl"] body { font-family: var(--font-ar); }
-        [dir="rtl"] .hero-split { flex-direction: row-reverse; text-align: right; }
-        [dir="rtl"] .hero-left { align-items: flex-end; text-align: right; }
+        [dir="rtl"] .hero-split { flex-direction: column-reverse; } /* Stacked on mobile by default logic, handled in media query */
+        [dir="rtl"] .hero-left { align-items: center; text-align: center; } /* Center alignment for RTL compatibility */
         [dir="rtl"] .nav-menu { margin-left: 0; margin-right: auto; }
-        [dir="rtl"] .nav-controls { margin-right: 0; margin-left: 0; }
         [dir="rtl"] .menu-section h3 { border-left: none; border-right: 4px solid var(--accent-secondary); padding-left: 0; padding-right: 1rem; }
-        [dir="rtl"] .service-card { text-align: right; }
 
         /* --- 3D Background --- */
         #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
         /* --- UI Overlay --- */
-        #ui-layer {
-            position: relative; z-index: 10; width: 100%;
+        #ui-layer { position: relative; z-index: 10; width: 100%; }
+
+        /* --- Loading Screen --- */
+        #loading-screen {
+            position: fixed; inset: 0; background: #020205;
+            z-index: 9999; display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
         }
+        .loader { text-align: center; }
+        .spinner {
+            width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-primary); border-radius: 50%;
+            animation: spin 1s linear infinite; margin: 0 auto 1rem;
+        }
+        .loader h2 { font-weight: 800; letter-spacing: 2px; font-size: 1.2rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* --- Navigation --- */
         nav {
@@ -77,9 +90,10 @@
             font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; cursor: pointer;
             background: linear-gradient(90deg, #fff, var(--text-secondary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            white-space: nowrap;
         }
 
-        .nav-menu { display: flex; gap: 2.5rem; align-items: center; list-style: none; }
+        .nav-menu { display: flex; gap: 2.5rem; align-items: center; list-style: none; transition: 0.3s; }
         .nav-item { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s; cursor: pointer; position: relative; }
         .nav-item:hover, .nav-item.active { color: var(--accent-primary); text-shadow: 0 0 10px var(--accent-primary); }
         
@@ -89,13 +103,8 @@
             padding: 0.3rem 0.8rem; border-radius: 20px; cursor: pointer; font-size: 0.75rem;
             outline: none;
         }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: #fff; border: none; padding: 0.6rem 1.5rem; border-radius: 30px;
-            font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(112, 0, 255, 0.3); font-family: inherit;
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(112, 0, 255, 0.6); }
+        
+        .mobile-menu-btn { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; z-index: 1002; }
         
         /* --- Layout --- */
         .container { max-width: 1300px; margin: 0 auto; padding: 120px 20px 50px; min-height: 100vh; }
@@ -108,17 +117,38 @@
             display: flex; align-items: center; justify-content: space-between;
             gap: 4rem; min-height: 85vh;
         }
-        .hero-left { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: left; z-index: 2; perspective: 1000px; }
+        .hero-left { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: flex-start; /* Default align left */
+            text-align: left; 
+            z-index: 2; 
+            perspective: 1000px; 
+            width: 100%;
+        }
         
+        /* RTL Fix for alignment */
+        [dir="rtl"] .hero-left { align-items: flex-start; text-align: right; } /* Keep it standard right-aligned for RTL text */
+        [dir="ltr"] .hero-left { align-items: flex-start; text-align: left; } /* Keep it standard left-aligned for LTR text */
+
+        /* Badge Styles (Moved visually via HTML) */
         .hello-badge {
-            color: var(--accent-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem;
+            color: var(--accent-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; 
+            margin-bottom: 1rem;
             display: inline-block; padding: 0.5rem 1.2rem; background: rgba(0, 242, 255, 0.1); border-radius: 20px; font-size: 0.9rem;
-            border: 1px solid rgba(0, 242, 255, 0.2); transform: translateX(-50px); opacity: 0;
+            border: 1px solid rgba(0, 242, 255, 0.2); 
+            /* Removed translateX to fix RTL jumping */
+            opacity: 0; 
+            transform: translateY(20px); /* Vertical animation only */
         }
         
         .hero-title {
             font-size: 4.5rem; line-height: 1.05; margin-bottom: 1.5rem; font-weight: 800;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(30px); opacity: 0;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            opacity: 0;
+            transform: translateY(30px);
         }
         .hero-title span { color: var(--text-secondary); display: block; font-weight: 300; font-size: 0.6em; margin-bottom: 0.5rem; }
         .hero-title strong {
@@ -132,7 +162,8 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
             backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
             padding: 1.5rem 2rem; border-radius: 20px; margin-bottom: 2.5rem; position: relative;
-            transform: translateX(-50px); opacity: 0;
+            opacity: 0; 
+            transform: translateY(20px); /* Vertical animation */
         }
         
         .social-row { display: flex; gap: 1rem; margin-bottom: 2.5rem; transform: translateY(20px); opacity: 0; }
@@ -141,9 +172,10 @@
             color: #fff; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; font-size: 1.2rem;
         }
         .social-link:hover { background: var(--accent-primary); color: #000; transform: translateY(-5px) scale(1.1); }
-        .cta-row { display: flex; gap: 1rem; margin-bottom: 3.5rem; transform: translateY(30px); opacity: 0; }
+        
+        /* CTA Row Removed as requested */
 
-        /* --- TECHNICAL SKILLS (UPDATED 3 COLUMNS 3D) --- */
+        /* --- TECHNICAL SKILLS --- */
         .section-title { text-align: center; font-size: 2.5rem; margin: 6rem 0 3rem; color: #fff; font-weight: 800; position: relative; display: inline-block; width: 100%; }
         .section-title span { color: var(--accent-primary); }
 
@@ -162,84 +194,33 @@
             flex-direction: column;
             align-items: center;
             min-height: 400px;
-            transition: transform 0.1s ease-out, box-shadow 0.3s, border-color 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             transform-style: preserve-3d;
-            position: relative;
-            overflow: hidden;
         }
 
-        /* Specific Gradients for Columns */
-        .skill-column-card:nth-child(1) { /* Programming - Cyan */
-            border-top: 4px solid var(--accent-primary);
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.05);
-        }
-        .skill-column-card:nth-child(2) { /* Production - Purple */
-            border-top: 4px solid var(--accent-secondary);
-            box-shadow: 0 0 20px rgba(112, 0, 255, 0.05);
-        }
-        .skill-column-card:nth-child(3) { /* Tools - Pink */
-            border-top: 4px solid var(--accent-third);
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.05);
-        }
+        .skill-column-card:nth-child(1) { border-top: 4px solid var(--accent-primary); box-shadow: 0 0 20px rgba(0, 242, 255, 0.05); }
+        .skill-column-card:nth-child(2) { border-top: 4px solid var(--accent-secondary); box-shadow: 0 0 20px rgba(112, 0, 255, 0.05); }
+        .skill-column-card:nth-child(3) { border-top: 4px solid var(--accent-third); box-shadow: 0 0 20px rgba(255, 0, 85, 0.05); }
 
-        .skill-column-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            z-index: 5;
-        }
-        .skill-column-card:nth-child(1):hover { box-shadow: 0 0 40px rgba(0, 242, 255, 0.2); }
-        .skill-column-card:nth-child(2):hover { box-shadow: 0 0 40px rgba(112, 0, 255, 0.2); }
-        .skill-column-card:nth-child(3):hover { box-shadow: 0 0 40px rgba(255, 0, 85, 0.2); }
+        .skill-column-card:hover { transform: translateY(-10px); z-index: 5; }
 
-        .skill-icon {
-            font-size: 3rem; margin-bottom: 1.5rem; transform: translateZ(30px);
-            transition: 0.3s;
-        }
+        .skill-icon { font-size: 3rem; margin-bottom: 1.5rem; }
         .skill-column-card:nth-child(1) .skill-icon { color: var(--accent-primary); }
         .skill-column-card:nth-child(2) .skill-icon { color: var(--accent-secondary); }
         .skill-column-card:nth-child(3) .skill-icon { color: var(--accent-third); }
 
         .skill-title {
             font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; color: #fff; text-transform: uppercase;
-            letter-spacing: 1px; transform: translateZ(20px);
+            letter-spacing: 1px;
         }
 
-        .skill-tags {
-            display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; width: 100%; transform: translateZ(10px);
-        }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; width: 100%; }
 
         .skill-tag {
-            background: rgba(255,255,255,0.05);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s;
-            cursor: default;
+            background: rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s; cursor: default;
         }
-        .skill-column-card:nth-child(1) .skill-tag:hover { background: rgba(0, 242, 255, 0.2); border-color: var(--accent-primary); box-shadow: 0 0 10px rgba(0,242,255,0.3); }
-        .skill-column-card:nth-child(2) .skill-tag:hover { background: rgba(112, 0, 255, 0.2); border-color: var(--accent-secondary); box-shadow: 0 0 10px rgba(112,0,255,0.3); }
-        .skill-column-card:nth-child(3) .skill-tag:hover { background: rgba(255, 0, 85, 0.2); border-color: var(--accent-third); box-shadow: 0 0 10px rgba(255,0,85,0.3); }
-
-
-        /* --- Other Sections (Glassmorphism) --- */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; perspective: 1000px; }
-        .service-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.005));
-            backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 24px;
-            padding: 3rem 2rem; text-align: center; transition: 0.1s ease-out; position: relative; overflow: hidden;
-            transform-style: preserve-3d;
-        }
-        .service-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            opacity: 0; transition: 0.5s; transform: translateZ(20px);
-        }
-        .service-card:hover::before { opacity: 1; }
-        .service-card i { font-size: 3rem; color: var(--accent-secondary); margin-bottom: 1.5rem; transform: translateZ(30px); transition: 0.3s; }
-        .service-card:hover i { color: var(--accent-primary); text-shadow: 0 0 20px var(--accent-primary); }
-        .service-card h3 { font-size: 1.3rem; margin-bottom: 1rem; color: #fff; transform: translateZ(20px); }
-        .service-card p { color: var(--text-secondary); font-size: 0.95rem; transform: translateZ(10px); }
 
         /* --- Explore Sections --- */
         .menu-section { margin-bottom: 8rem; perspective: 1000px; }
@@ -254,42 +235,98 @@
             height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transform-style: preserve-3d;
         }
-        .menu-card:hover { background: rgba(0, 242, 255, 0.1); border-color: var(--accent-primary); }
+        .menu-card:hover { background: rgba(0, 242, 255, 0.1); border-color: var(--accent-primary); transform: translateY(-10px); }
         .menu-card i { font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-secondary); transition: 0.3s; transform: translateZ(30px); }
-        .menu-card:hover i { color: var(--accent-primary); transform: translateZ(40px) rotateY(180deg); }
-        .menu-card p { font-size: 1rem; font-weight: 700; color: #fff; transform: translateZ(20px); }
+        .menu-card:hover i { color: var(--accent-primary); transform: scale(1.1); }
+        .menu-card p { font-size: 1rem; font-weight: 700; color: #fff; }
 
-        /* --- Projects Grid --- */
-        .dynamic-content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem; perspective: 1000px; }
+        /* --- UPDATED: Services Color Change on Hover --- */
+        .services-grid .menu-card:hover {
+            background: var(--accent-primary); /* Full Cyan Background */
+            border-color: var(--accent-primary);
+        }
+        .services-grid .menu-card:hover i, 
+        .services-grid .menu-card:hover h3, 
+        .services-grid .menu-card:hover p {
+            color: #000 !important; /* Dark text for contrast */
+        }
+
+        /* --- Projects/Cert Cards (3D Glass + Minimal + Colorful) --- */
+        .dynamic-content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; perspective: 1000px; }
+        
         .project-card { 
             background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2)); 
-            border: 1px solid var(--glass-border); border-radius: 24px; overflow: hidden; cursor: pointer; 
-            transition: transform 0.1s ease-out, box-shadow 0.3s; transform-style: preserve-3d;
+            border: 1px solid var(--glass-border); 
+            border-radius: 24px; 
+            padding: 2rem 1.5rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            text-align: center;
+            cursor: pointer; 
+            transition: transform 0.1s ease-out, box-shadow 0.3s; 
+            position: relative; 
+            overflow: hidden;
+            min-height: 100px;
+            transform-style: preserve-3d; 
+            backdrop-filter: blur(10px);
         }
-        .project-card:hover { border-color: var(--accent-secondary); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .card-visual { height: 180px; background: linear-gradient(135deg, #1a1a2e, #000); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: rgba(255,255,255,0.1); transform: translateZ(20px); }
-        .card-content { padding: 2rem; transform: translateZ(10px); background: rgba(0,0,0,0.2); backdrop-filter: blur(5px); }
-        .card-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.8rem; color: #fff; }
-        .card-desc { font-size: 0.9rem; color: var(--text-secondary); }
+
+        .card-visual { display: none; }
+        
+        .card-content { 
+            padding: 0; 
+            background: transparent; 
+            backdrop-filter: none; 
+            transform: translateZ(20px); 
+        }
+        
+        .card-desc { display: none; } 
+        
+        .card-title { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            color: #fff; 
+            margin: 0; 
+            z-index: 2; 
+            position: relative;
+            transform: translateZ(30px); 
+            transition: color 0.3s;
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+
+        /* --- Contact Form Styles --- */
+        .contact-form {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 2rem; border-radius: 24px; backdrop-filter: blur(10px);
+            text-align: left;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 1rem; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: #fff; font-family: inherit; transition: 0.3s; resize: none;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent-primary); box-shadow: 0 0 10px rgba(0,242,255,0.2);
+        }
+        [dir="rtl"] .contact-form { text-align: right; }
 
         /* --- Contact (3D Let's Connect) --- */
         .contact-grid { 
             display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; margin-top: 5rem; 
-            perspective: 1500px; /* Deep perspective for3D */
-            transform: rotateX(5deg); /* Slight tilt of the whole wall */
+            perspective: 1500px; transform: rotateX(5deg);
         }
-        
         .contact-card {
             background: var(--glass-bg); border:1px solid var(--glass-border); border-radius: 24px;
             width: 110px; height: 110px; display: flex; align-items: center; justify-content: center;
             text-decoration: none; color: var(--text-secondary); font-size: 2.5rem;
             transform-style: preserve-3d;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27), background 0.3s, box-shadow 0.3s;
-            /* Floating Animation */
             animation: floatIcon 4s ease-in-out infinite;
         }
-        
-        /* Delays for floating effect */
         .contact-card:nth-child(2n) { animation-delay: 0.5s; }
         .contact-card:nth-child(3n) { animation-delay: 1s; }
         .contact-card:nth-child(4n) { animation-delay: 1.5s; }
@@ -301,17 +338,15 @@
 
         .contact-card:hover {
             background: var(--accent-primary); color: #000;
-            /* Strong 3D Pop effect */
             transform: translateZ(60px) scale(1.2) !important; 
             box-shadow: 0 0 50px rgba(0, 242, 255, 0.6);
-            z-index: 100;
-            border-color: #fff;
+            z-index: 100; border-color: #fff;
         }
 
         /* --- Modals --- */
         .modal { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); align-items: center; justify-content: center; }
         .modal.show { display: flex; animation: zoomIn 0.3s ease-out; }
-        .modal-content-wrapper { width: 90%; max-width: 1000px; background: #0f0f1a; border: 1px solid var(--accent-secondary); border-radius: 24px; overflow: hidden; box-shadow: 0 0 50px rgba(112,0,255,0.3); position: relative; transform: translateZ(50px); }
+        .modal-content-wrapper { width: 90%; max-width: 1000px; background: #0f0f1a; border: 1px solid var(--accent-secondary); border-radius: 24px; overflow: hidden; box-shadow: 0 0 50px rgba(112,0,255,0.3); position: relative; }
         @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
@@ -322,9 +357,25 @@
         /* --- Responsive --- */
         @media (max-width: 1024px) {
             .hero-split { flex-direction: column-reverse; text-align: center; gap: 3rem; padding-top: 2rem; }
-            .hero-left { align-items: center; text-align: center; }
+            .hero-left { align-items: center !important; text-align: center !important; } /* Force center on mobile */
             .hero-title { font-size: 3rem; }
-            .nav-menu { display: none; }
+            
+            .nav-menu { display: none; } 
+            .mobile-menu-btn { display: block; }
+
+            .nav-menu.active {
+                display: flex;
+                position: fixed; top: 0; right: 0; width: 75%; height: 100vh;
+                background: rgba(10, 10, 20, 0.98); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: center; align-items: center;
+                z-index: 1001; border-left: 1px solid var(--glass-border);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            }
+            [dir="rtl"] .nav-menu.active {
+                right: auto; left: 0; border-left: none; border-right: 1px solid var(--glass-border);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+            }
+
             .skills-wrapper-3d { grid-template-columns: 1fr; }
             .contact-grid { transform: rotateX(0deg); gap: 1.5rem; }
             .contact-card { width: 80px; height: 80px; font-size: 2rem; }
@@ -332,6 +383,14 @@
     </style>
 </head>
 <body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="spinner"></div>
+            <h2>Eng. Omar Hamdi</h2>
+        </div>
+    </div>
 
     <div id="canvas-container"></div>
 
@@ -353,7 +412,9 @@
                     <option value="en">EN</option>
                     <option value="ar">عربي</option>
                 </select>
-                <button class="btn-primary" onclick="window.open('#', '_blank')" data-i18n="downloadCV">Download CV</button>
+                <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
             </div>
         </nav>
 
@@ -364,11 +425,13 @@
                 <div class="hero-section">
                     <div class="hero-split">
                         <div class="hero-left">
-                            <span class="hello-badge" data-i18n="heroBadge">Creative Developer</span>
                             <h1 class="hero-title">
                                 <span data-i18n="helloItsMe">Hello, It's Me</span>
                                 <strong data-i18n="heroName">Omar Hamdi</strong>
                             </h1>
+                            <!-- MOVED: Creative Developer Badge moved HERE (Under Name) -->
+                            <span class="hello-badge" data-i18n="heroBadge">Creative Developer</span>
+                            
                             <span class="typed-text"></span>
                             
                             <div class="quote-card">
@@ -377,100 +440,77 @@
                             </div>
                             
                             <div class="social-row">
-                                <!-- UPDATED: LinkedIn, GitHub, YouTube, TikTok -->
                                 <a href="https://www.linkedin.com/in/omar-hamdu" target="_blank" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
                                 <a href="https://github.com/OmarHamdu" target="_blank" class="social-link"><i class="fa-brands fa-github"></i></a>
                                 <a href="https://www.youtube.com/@omarhmadu" target="_blank" class="social-link"><i class="fa-brands fa-youtube"></i></a>
                                 <a href="https://www.tiktok.com/@omarhamdu1" target="_blank" class="social-link"><i class="fa-brands fa-tiktok"></i></a>
                             </div>
-
-                            <div class="cta-row">
-                                <button class="btn-primary" onclick="showPage('contact')" data-i18n="hireMe">Hire Me</button>
-                            </div>
+                            
+                            <!-- REMOVED: Hire Me Button -->
                         </div>
-                        <!-- Right Side is left empty for 3D Laptop to occupy -->
                     </div>
                 </div>
 
-                <!-- Services Section -->
+                <!-- Services Section (With Color Change on Hover) -->
                 <h2 class="section-title" data-i18n="servicesTitle">My <span>Services</span></h2>
-                <div class="services-grid">
-                    <div class="service-card tilt-card">
+                <div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; margin-bottom: 4rem;">
+                    <div class="menu-card tilt-card">
                         <i class="fa-solid fa-video"></i>
                         <h3 data-i18n="serviceVideo">Video Production</h3>
-                        <p data-i18n="serviceVideoDesc">Professional video editing, motion graphics, and promotional content creation.</p>
+                        <p style="color:var(--text-secondary); margin-top:0.5rem; transition:color 0.3s;" data-i18n="serviceVideoDesc">Professional video editing and motion graphics.</p>
                     </div>
-                    <div class="service-card tilt-card">
+                    <div class="menu-card tilt-card">
                         <i class="fa-solid fa-cube"></i>
                         <h3 data-i18n="serviceGames">3D Games Development</h3>
-                        <p data-i18n="serviceGamesDesc">Creating immersive 3D experiences and games using Unity and C#.</p>
+                        <p style="color:var(--text-secondary); margin-top:0.5rem; transition:color 0.3s;" data-i18n="serviceGamesDesc">Creating immersive 3D experiences using Unity.</p>
                     </div>
-                    <div class="service-card tilt-card">
+                    <div class="menu-card tilt-card">
                         <i class="fa-solid fa-code"></i>
                         <h3 data-i18n="serviceWeb">Web & App Development</h3>
-                        <p data-i18n="serviceWebDesc">Building responsive websites and powerful applications with modern tech stacks.</p>
+                        <p style="color:var(--text-secondary); margin-top:0.5rem; transition:color 0.3s;" data-i18n="serviceWebDesc">Building responsive websites and apps.</p>
                     </div>
                 </div>
 
-                <!-- --- TECHNICAL SKILLS (UPDATED 3 COLUMN 3D) --- -->
+                <!-- TECHNICAL SKILLS -->
                 <h2 class="section-title" data-i18n="skillsTitle">Technical <span>Skills</span></h2>
                 <div style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary);" data-i18n="skillsSubtitle">My specialized toolset</div>
                 
-                <!-- The 3D Container for Columns -->
                 <div class="skills-wrapper-3d">
-                    
-                    <!-- Column 1: Programming -->
-                    <div class="skill-column-card tilt-card">
+                    <div class="skill-column-card">
                         <i class="fa-solid fa-code skill-icon"></i>
                         <h3 class="skill-title">Programming</h3>
                         <div class="skill-tags">
-                            <span class="skill-tag">HTML5</span>
-                            <span class="skill-tag">CSS3</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">TypeScript</span>
-                            <span class="skill-tag">React.js</span>
-                            <span class="skill-tag">Next.js</span>
-                            <span class="skill-tag">Node.js</span>
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">.NET</span>
-                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">JavaScript</span><span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">React.js</span><span class="skill-tag">Next.js</span>
+                            <span class="skill-tag">Node.js</span><span class="skill-tag">C#</span>
+                            <span class="skill-tag">.NET</span><span class="skill-tag">Python</span>
                         </div>
                     </div>
-
-                    <!-- Column 2: Production & Design -->
-                    <div class="skill-column-card tilt-card">
+                    <div class="skill-column-card">
                         <i class="fa-solid fa-pen-nib skill-icon"></i>
                         <h3 class="skill-title">Production & Design</h3>
                         <div class="skill-tags">
-                            <span class="skill-tag">Adobe Photoshop</span>
-                            <span class="skill-tag">Adobe Illustrator</span>
-                            <span class="skill-tag">Adobe Premiere</span>
+                            <span class="skill-tag">Photoshop</span><span class="skill-tag">Illustrator</span>
+                            <span class="skill-tag">Premiere</span>
                             <span class="skill-tag">After Effects</span>
                             <span class="skill-tag">UI/UX Design</span>
                             <span class="skill-tag">Figma</span>
                             <span class="skill-tag">Blender</span>
-                            <span class="skill-tag">DaVinci Resolve</span>
                         </div>
                     </div>
-
-                    <!-- Column 3: Tools & Office -->
-                    <div class="skill-column-card tilt-card">
+                    <div class="skill-column-card">
                         <i class="fa-solid fa-screwdriver-wrench skill-icon"></i>
-                        <h3 class="skill-title">Tools & Office</h3>
+                        <h3 class="skill-title">Office & Tools</h3>
                         <div class="skill-tags">
-                            <span class="skill-tag">VS Code</span>
-                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">VS Code</span><span class="skill-tag">Git</span>
                             <span class="skill-tag">GitHub</span>
-                            <span class="skill-tag">Microsoft Word</span>
+                            <span class="skill-tag">Word</span>
                             <span class="skill-tag">Excel</span>
                             <span class="skill-tag">PowerPoint</span>
-                            <span class="skill-tag">Slack</span>
-                            <span class="skill-tag">Trello</span>
                         </div>
                     </div>
-
                 </div>
-
 
                 <!-- Explore My Work -->
                 <div class="explore-wrapper">
@@ -480,13 +520,12 @@
                     <div class="menu-section">
                         <h3 data-i18n="secProjects">Projects</h3>
                         <div class="menu-grid">
-                            <div class="menu-card tilt-card" onclick="showPage('projects-websites')"><i class="fa-solid fa-globe"></i><p data-i18n="mWeb">Websites</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('projects-apps')"><i class="fa-solid fa-mobile-screen"></i><p data-i18n="mApps">Apps</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('projects-games')"><i class="fa-solid fa-gamepad"></i><p data-i18n="mGames">Games</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('projects-ms')"><i class="fa-brands fa-microsoft"></i><p data-i18n="mMS">MS Projects</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('projects-production')"><i class="fa-solid fa-film"></i><p data-i18n="mProd">Production</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('projects-design')"><i class="fa-solid fa-palette"></i><p data-i18n="mDesign">Designs</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('projects-ui')"><i class="fa-solid fa-pen-ruler"></i><p data-i18n="mUI">UI Interfaces</p></div>
+                            <div class="menu-card" onclick="showPage('projects-websites')"><i class="fa-solid fa-globe"></i><p data-i18n="mWeb">Websites</p></div>
+                            <div class="menu-card" onclick="showPage('projects-apps')"><i class="fa-solid fa-mobile-screen"></i><p data-i18n="mApps">Apps</p></div>
+                            <div class="menu-card" onclick="showPage('projects-games')"><i class="fa-solid fa-gamepad"></i><p data-i18n="mGames">Games</p></div>
+                            <div class="menu-card" onclick="showPage('projects-ms')"><i class="fa-brands fa-microsoft"></i><p data-i18n="mMS">MS Projects</p></div>
+                            <div class="menu-card" onclick="showPage('projects-production')"><i class="fa-solid fa-film"></i><p data-i18n="mProd">Production</p></div>
+                            <div class="menu-card" onclick="showPage('projects-design')"><i class="fa-solid fa-palette"></i><p data-i18n="mDesign">Designs</p></div>
                         </div>
                     </div>
 
@@ -494,10 +533,15 @@
                     <div class="menu-section">
                         <h3 data-i18n="secCerts">Certificates</h3>
                         <div class="menu-grid">
-                            <div class="menu-card tilt-card" onclick="showPage('cert-prod')"><i class="fa-solid fa-certificate"></i><p data-i18n="mCertProd">Prod & Design</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('cert-prog')"><i class="fa-solid fa-award"></i><p data-i18n="mCertProg">Programming</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('cert-tech')"><i class="fa-solid fa-microchip"></i><p data-i18n="mCertTech">Tech Other</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('cert-life')"><i class="fa-solid fa-scroll"></i><p data-i18n="mCertLife">Life</p></div>
+                            <div class="menu-card" onclick="showPage('cert-frontend')"><i class="fa-brands fa-html5"></i><p data-i18n="mCertFrontend">Frontend</p></div>
+                            <div class="menu-card" onclick="showPage('cert-backend')"><i class="fa-solid fa-server"></i><p data-i18n="mCertBackend">Backend</p></div>
+                            <div class="menu-card" onclick="showPage('cert-prog')"><i class="fa-solid fa-code"></i><p data-i18n="mCertProg">Programming</p></div>
+                            <div class="menu-card" onclick="showPage('cert-design')"><i class="fa-solid fa-pen-nib"></i><p data-i18n="mCertDesign">Design</p></div>
+                            <div class="menu-card" onclick="showPage('cert-video')"><i class="fa-solid fa-video"></i><p data-i18n="mCertVideo">Video Editing</p></div>
+                            <div class="menu-card" onclick="showPage('cert-tech')"><i class="fa-solid fa-microchip"></i><p data-i18n="mCertTech">Tech Other</p></div>
+                            <div class="menu-card" onclick="showPage('cert-ms')"><i class="fa-brands fa-microsoft"></i><p data-i18n="mCertMs">Microsoft</p></div>
+                            <div class="menu-card" onclick="showPage('cert-life')"><i class="fa-solid fa-scroll"></i><p data-i18n="mCertLife">Life</p></div>
+                            <div class="menu-card" onclick="showPage('cert-app')"><i class="fa-solid fa-mobile-screen"></i><p data-i18n="mCertApp">App</p></div>
                         </div>
                     </div>
 
@@ -505,13 +549,12 @@
                     <div class="menu-section">
                         <h3 data-i18n="secKnowledge">Knowledge Base</h3>
                         <div class="menu-grid">
-                            <div class="menu-card tilt-card" onclick="showPage('books-imp')"><i class="fa-solid fa-book-open"></i><p data-i18n="mBooksImp">Important Books</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('books-mine')"><i class="fa-solid fa-book"></i><p data-i18n="mBooksMine">My Books</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('tips-prog')"><i class="fa-regular fa-lightbulb"></i><p data-i18n="mTipsProg">Programming Tips</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('tips-life')"><i class="fa-solid fa-heart-pulse"></i><p data-i18n="mTipsLife">Life Tips</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('tips-prod')"><i class="fa-solid fa-clapperboard"></i><p data-i18n="mTipsProd">Production Tips</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('challenges')"><i class="fa-solid fa-bomb"></i><p data-i18n="mChallenges">Challenges</p></div>
-                            <div class="menu-card tilt-card" onclick="showPage('tools')"><i class="fa-solid fa-toolbox"></i><p data-i18n="mTools">My Tools</p></div>
+                            <div class="menu-card" onclick="showPage('books-imp')"><i class="fa-solid fa-book-open"></i><p data-i18n="mBooksImp">Important Books</p></div>
+                            <div class="menu-card" onclick="showPage('books-mine')"><i class="fa-solid fa-book"></i><p data-i18n="mBooksMine">My Books</p></div>
+                            <div class="menu-card" onclick="showPage('tips-prog')"><i class="fa-regular fa-lightbulb"></i><p data-i18n="mTipsProg">Programming Tips</p></div>
+                            <div class="menu-card" onclick="showPage('tips-life')"><i class="fa-solid fa-heart-pulse"></i><p data-i18n="mTipsLife">Life Tips</p></div>
+                            <div class="menu-card" onclick="showPage('tips-prod')"><i class="fa-solid fa-clapperboard"></i><p data-i18n="mTipsProd">Production Tips</p></div>
+                            <div class="menu-card" onclick="showPage('challenges')"><i class="fa-solid fa-bomb"></i><p data-i18n="mChallenges">Challenges</p></div>
                         </div>
                     </div>
                 </div>
@@ -523,32 +566,34 @@
             <div class="container">
                 <div class="page-header" style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;">
                     <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;" data-i18n="secProjects">Projects</h1>
-                    <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto;" data-i18n="projectsDesc">A collection of my work in web, apps, games, and production.</p>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto;" data-i18n="projectsDesc">A collection of my work.</p>
                 </div>
                 <div class="menu-grid">
-                    <!-- Same Menu items -->
-                    <div class="menu-card tilt-card" onclick="showPage('projects-websites')"><i class="fa-solid fa-globe"></i><p data-i18n="mWeb">Websites</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('projects-apps')"><i class="fa-solid fa-mobile-screen"></i><p data-i18n="mApps">Apps</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('projects-games')"><i class="fa-solid fa-gamepad"></i><p data-i18n="mGames">Games</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('projects-ms')"><i class="fa-brands fa-microsoft"></i><p data-i18n="mMS">MS Projects</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('projects-production')"><i class="fa-solid fa-film"></i><p data-i18n="mProd">Production</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('projects-design')"><i class="fa-solid fa-palette"></i><p data-i18n="mDesign">Designs</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('projects-ui')"><i class="fa-solid fa-pen-ruler"></i><p data-i18n="mUI">UI Interfaces</p></div>
+                    <div class="menu-card" onclick="showPage('projects-websites')"><i class="fa-solid fa-globe"></i><p data-i18n="mWeb">Websites</p></div>
+                    <div class="menu-card" onclick="showPage('projects-apps')"><i class="fa-solid fa-mobile-screen"></i><p data-i18n="mApps">Apps</p></div>
+                    <div class="menu-card" onclick="showPage('projects-games')"><i class="fa-solid fa-gamepad"></i><p data-i18n="mGames">Games</p></div>
+                    <div class="menu-card" onclick="showPage('projects-ms')"><i class="fa-brands fa-microsoft"></i><p data-i18n="mMS">MS Projects</p></div>
+                    <div class="menu-card" onclick="showPage('projects-production')"><i class="fa-solid fa-film"></i><p data-i18n="mProd">Production</p></div>
+                    <div class="menu-card" onclick="showPage('projects-design')"><i class="fa-solid fa-palette"></i><p data-i18n="mDesign">Designs</p></div>
                 </div>
             </div>
         </div>
         
-        <!-- Certificates, Knowledge pages (Simplified for brevity, following same pattern as Projects) -->
         <div class="page" id="certificates">
             <div class="container">
                 <div class="page-header" style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;">
                     <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;" data-i18n="secCerts">Certificates</h1>
                 </div>
                 <div class="menu-grid">
-                    <div class="menu-card tilt-card" onclick="showPage('cert-prod')"><i class="fa-solid fa-certificate"></i><p data-i18n="mCertProd">Prod & Design</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('cert-prog')"><i class="fa-solid fa-award"></i><p data-i18n="mCertProg">Programming</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('cert-tech')"><i class="fa-solid fa-microchip"></i><p data-i18n="mCertTech">Tech Other</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('cert-life')"><i class="fa-solid fa-scroll"></i><p data-i18n="mCertLife">Life</p></div>
+                    <div class="menu-card" onclick="showPage('cert-frontend')"><i class="fa-brands fa-html5"></i><p data-i18n="mCertFrontend">Frontend</p></div>
+                    <div class="menu-card" onclick="showPage('cert-backend')"><i class="fa-solid fa-server"></i><p data-i18n="mCertBackend">Backend</p></div>
+                    <div class="menu-card" onclick="showPage('cert-prog')"><i class="fa-solid fa-code"></i><p data-i18n="mCertProg">Programming</p></div>
+                    <div class="menu-card" onclick="showPage('cert-design')"><i class="fa-solid fa-pen-nib"></i><p data-i18n="mCertDesign">Design</p></div>
+                    <div class="menu-card" onclick="showPage('cert-video')"><i class="fa-solid fa-video"></i><p data-i18n="mCertVideo">Video Editing</p></div>
+                    <div class="menu-card" onclick="showPage('cert-tech')"><i class="fa-solid fa-microchip"></i><p data-i18n="mCertTech">Tech Other</p></div>
+                    <div class="menu-card" onclick="showPage('cert-ms')"><i class="fa-brands fa-microsoft"></i><p data-i18n="mCertMs">Microsoft</p></div>
+                    <div class="menu-card" onclick="showPage('cert-life')"><i class="fa-solid fa-scroll"></i><p data-i18n="mCertLife">Life</p></div>
+                    <div class="menu-card" onclick="showPage('cert-app')"><i class="fa-solid fa-mobile-screen"></i><p data-i18n="mCertApp">App</p></div>
                 </div>
             </div>
         </div>
@@ -559,13 +604,12 @@
                     <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;" data-i18n="secKnowledge">Knowledge Base</h1>
                 </div>
                 <div class="menu-grid">
-                    <div class="menu-card tilt-card" onclick="showPage('books-imp')"><i class="fa-solid fa-book-open"></i><p data-i18n="mBooksImp">Important Books</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('books-mine')"><i class="fa-solid fa-book"></i><p data-i18n="mBooksMine">My Books</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('tips-prog')"><i class="fa-regular fa-lightbulb"></i><p data-i18n="mTipsProg">Programming Tips</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('tips-life')"><i class="fa-solid fa-heart-pulse"></i><p data-i18n="mTipsLife">Life Tips</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('tips-prod')"><i class="fa-solid fa-clapperboard"></i><p data-i18n="mTipsProd">Production Tips</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('challenges')"><i class="fa-solid fa-bomb"></i><p data-i18n="mChallenges">Challenges</p></div>
-                    <div class="menu-card tilt-card" onclick="showPage('tools')"><i class="fa-solid fa-toolbox"></i><p data-i18n="mTools">My Tools</p></div>
+                    <div class="menu-card" onclick="showPage('books-imp')"><i class="fa-solid fa-book-open"></i><p data-i18n="mBooksImp">Important Books</p></div>
+                    <div class="menu-card" onclick="showPage('books-mine')"><i class="fa-solid fa-book"></i><p data-i18n="mBooksMine">My Books</p></div>
+                    <div class="menu-card" onclick="showPage('tips-prog')"><i class="fa-regular fa-lightbulb"></i><p data-i18n="mTipsProg">Programming Tips</p></div>
+                    <div class="menu-card" onclick="showPage('tips-life')"><i class="fa-solid fa-heart-pulse"></i><p data-i18n="mTipsLife">Life Tips</p></div>
+                    <div class="menu-card" onclick="showPage('tips-prod')"><i class="fa-solid fa-clapperboard"></i><p data-i18n="mTipsProd">Production Tips</p></div>
+                    <div class="menu-card" onclick="showPage('challenges')"><i class="fa-solid fa-bomb"></i><p data-i18n="mChallenges">Challenges</p></div>
                 </div>
             </div>
         </div>
@@ -575,9 +619,27 @@
             <div class="container" style="text-align: center;">
                 <div class="page-header" style="margin-bottom: 4rem; padding-top: 2rem;">
                     <h1 style="font-size: 3rem; font-weight: 800;" data-i18n="connectHeader">Let's Connect</h1>
-                    <p style="color: var(--text-secondary); font-size: 1.2rem;" data-i18n="connectDesc">Find me on all platforms</p>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem;" data-i18n="connectDesc">Send me a message directly</p>
                 </div>
                 
+                <div style="max-width: 600px; margin: 0 auto 4rem; text-align: left;">
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Message functionality requires a backend (e.g., Formspree).');">
+                        <div class="form-group">
+                            <label data-i18n="formName">Name</label>
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="formEmail">Email</label>
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="formMsg">Message</label>
+                            <textarea rows="5" placeholder="How can I help you?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;" data-i18n="formSend">Send Message</button>
+                    </form>
+                </div>
+
                 <div class="contact-grid">
                     <a href="https://www.linkedin.com/in/omar-hamdu" target="_blank" class="contact-card"><i class="fa-brands fa-linkedin-in"></i></a>
                     <a href="https://github.com/OmarHamdu" target="_blank" class="contact-card"><i class="fa-brands fa-github"></i></a>
@@ -622,232 +684,165 @@
         const translations = {
             en: {
                 navHome: "Home", navProjects: "Projects", navCerts: "Certificates", navKnowledge: "Knowledge", navContact: "Contact",
-                downloadCV: "Download CV", heroBadge: "Creative Developer", helloItsMe: "Hello, It's Me", heroName: "Omar Hamdi",
+                heroBadge: "Creative Developer", helloItsMe: "Hello, It's Me", heroName: "Omar Hamdi",
                 heroQuote: "\"I believe that a successful developer is a 'Forever Student'.\"",
-                hireMe: "Hire Me", yearsExp: "Years Exp.", projectsCount: "Projects", techCount: "Technologies", clientsCount: "Clients",
-                servicesTitle: "My Services", skillsTitle: "Technical Skills", skillsSubtitle: "Explore my tech stack interactively",
-                exploreTitle: "Explore My Work",
-                serviceVideo: "Video Production", serviceVideoDesc: "Professional video editing, motion graphics, and promotional content creation.",
-                serviceGames: "3D Games Development", serviceGamesDesc: "Creating immersive 3D experiences and games using Unity and C#.",
-                serviceWeb: "Web & App Development", serviceWebDesc: "Building responsive websites and powerful applications with modern tech stacks.",
+                servicesTitle: "My Services", skillsTitle: "Technical Skills",
+                skillsSubtitle: "Explore my tech stack interactively", exploreTitle: "Explore My Work",
+                serviceVideo: "Video Production", serviceGames: "3D Games Development", serviceWeb: "Web & App Development",
                 secProjects: "Projects", secCerts: "Certificates", secKnowledge: "Knowledge Base",
-                projectsDesc: "A collection of my work in web, apps, games, and production.",
-                certsDesc: "Professional certifications in programming, production, and technology.",
-                knowledgeDesc: "Books, tips, challenges, and tools I use and recommend.",
-                mWeb: "Websites", mApps: "Apps", mGames: "Games", mMS: "MS Projects", mProd: "Production", mDesign: "Designs", mUI: "UI Interfaces",
-                mCertProd: "Prod & Design", mCertProg: "Programming", mCertTech: "Tech Other", mCertLife: "Life",
+                projectsDesc: "A collection of my work.",
+                mWeb: "Websites", mApps: "Apps", mGames: "Games", mMS: "MS Projects", mProd: "Production", mDesign: "Designs",
+                mCertFrontend: "Frontend", mCertBackend: "Backend", mCertProg: "Programming", mCertDesign: "Design",
+                mCertVideo: "Video Editing", mCertTech: "Tech Other", mCertMs: "Microsoft", mCertLife: "Life", mCertApp: "App",
                 mBooksImp: "Important Books", mBooksMine: "My Books",
-                mTipsProg: "Programming Tips", mTipsLife: "Life Tips", mTipsProd: "Production Tips",
-                mChallenges: "Challenges", mTools: "My Tools", backHome: "Back Home", back: "Back",
-                connectHeader: "Let's Connect", connectDesc: "Find me on all platforms",
-                typeStrings: ["Full Stack Developer", "Game Developer", "Video Editor", "UI/UX Designer"]
+                mTipsProg: "Programming Tips", mTipsLife: "Life Tips", mTipsProd: "Production Tips", mChallenges: "Challenges",
+                backHome: "Back Home", back: "Back", connectHeader: "Let's Connect", connectDesc: "Send me a message directly",
+                typeStrings: ["Full Stack Developer", "Game Developer", "Video Editor", "UI/UX Designer"],
+                formName: "Name", formEmail: "Email", formMsg: "Message", formSend: "Send Message"
             },
             ar: {
                 navHome: "الرئيسية", navProjects: "المشاريع", navCerts: "الشهادات", navKnowledge: "المعرفة", navContact: "تواصل معي",
-                downloadCV: "تحميل السيرة الذاتية", heroBadge: "مطور مبدع", helloItsMe: "مرحباً، أنا", heroName: "عمر حمدي",
+                heroBadge: "مطور مبدع", helloItsMe: "مرحباً، أنا", heroName: "عمر حمدي",
                 heroQuote: "\"أؤمن بأن المطور الناجح هو طالب للعلم للأبد.\"",
-                hireMe: "وظفني", yearsExp: "سنوات خبرة", projectsCount: "مشاريع", techCount: "تقنيات", clientsCount: "عملاء",
-                servicesTitle: "خدماتي", skillsTitle: "المهارات التقنية", skillsSubtitle: "قم بتحريك الماوس لتدوير كرة المهارات",
-                exploreTitle: "استكشف أعمالي",
-                serviceVideo: "إنتاج الفيديو", serviceVideoDesc: "تحرير فيديو احترافي، موشن جرافيك، وصناعة محتوى دعائي.",
-                serviceGames: "تطوير ألعاب 3D", serviceGamesDesc: "إنشاء تجارب وألعاب ثلاثية الأبعاد باستخدام Unity و C#.",
-                serviceWeb: "تطوير الويب والتطبيقات", serviceWebDesc: "بناء مواقع وتطبيقات ويب قوية باستخدام أحدث التقنيات.",
+                servicesTitle: "خدماتي", skillsTitle: "المهارات التقنية",
+                skillsSubtitle: "استكشف مهاراتي التقنية", exploreTitle: "استكشف أعمالي",
+                serviceVideo: "إنتاج الفيديو", serviceGames: "تطوير ألعاب 3D", serviceWeb: "تطوير الويب والتطبيقات",
                 secProjects: "المشاريع", secCerts: "الشهادات", secKnowledge: "قاعدة المعرفة",
-                projectsDesc: "مجموعة من أعمالي في تطوير الويب، التطبيقات، الألعاب، والإنتاج.",
-                certsDesc: "شهادات مهنية في البرمجة، الإنتاج، والتكنولوجيا.",
-                knowledgeDesc: "كتب، نصائح، تحديات، وأدوات أستخدمها وأنصح بها.",
-                mWeb: "مواقع ويب", mApps: "تطبيقات", mGames: "ألعاب", mMS: "مشاريع مايكروسوفت", mProd: "إنتاج فني", mDesign: "تصميمات", mUI: "واجهات مستخدم",
-                mCertProd: "شهادات إنتاج", mCertProg: "شهادات برمجة", mCertTech: "شهادات تقنية", mCertLife: "شهادات حياتية",
+                projectsDesc: "مجموعة من أعمالي.",
+                mWeb: "مواقع ويب", mApps: "تطبيقات", mGames: "ألعاب", mMS: "مشاريع مايكروسوفت", mProd: "إنتاج فني", mDesign: "تصميمات",
+                mCertFrontend: "فرونت إند", mCertBackend: "باك إند", mCertProg: "برمجة", mCertDesign: "تصميم",
+                mCertVideo: "مونتاج فيديو", mCertTech: "تقنيات أخرى", mCertMs: "مايكروسوفت", mCertLife: "حياة", mCertApp: "تطبيقات",
                 mBooksImp: "كتب مهمة", mBooksMine: "كتبي",
-                mTipsProg: "نصائح برمجة", mTipsLife: "نصائح حياة", mTipsProd: "نصائح إنتاج",
-                mChallenges: "تحديات", mTools: "أدواتي", backHome: "عودة للرئيسية", back: "رجوع",
-                connectHeader: "تواصل معي", connectDesc: "ابحث عني على جميع المنصات",
-                typeStrings: ["مطور فول ستاك", "مطور ألعاب", "محرر فيديو", "مصمم واجهات المستخدم"]
+                mTipsProg: "نصائح برمجة", mTipsLife: "نصائح حياة", mTipsProd: "نصائح إنتاج", mChallenges: "تحديات",
+                backHome: "عودة للرئيسية", back: "رجوع", connectHeader: "تواصل معي", connectDesc: "أرسل لي رسالة مباشرة",
+                typeStrings: ["مطور فول ستاك", "مطور ألعاب", "محرر فيديو", "مصمم واجهات المستخدم"],
+                formName: "الاسم", formEmail: "البريد الإلكتروني", formMsg: "الرسالة", formSend: "إرسال الرسالة"
             }
         };
 
         let currentTyped = null;
 
-        // --- 2. REMOVED OLD SPHERE LOGIC ---
-
-        // --- 3. ENHANCED 3D BACKGROUND (Three.js + Grid + Stars) ---
+        // --- 2. ENHANCED 3D BACKGROUND ---
         const init3D = () => {
             const container = document.getElementById('canvas-container');
             const scene = new THREE.Scene();
             scene.fog = new THREE.FogExp2(0x020205, 0.001);
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            
-            // Initial Camera Position
-            camera.position.z = 60; 
-            camera.position.y = 10;
-
+            camera.position.z = 60; camera.position.y = 10;
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
-            // --- BACKGROUND ADDITION 1: GRID FLOOR ---
             const gridHelper = new THREE.GridHelper(200, 50, 0x00f2ff, 0x1a1a2e);
-            gridHelper.position.y = -10;
-            gridHelper.material.transparent = true;
-            gridHelper.material.opacity = 0.15;
+            gridHelper.position.y = -10; gridHelper.material.transparent = true; gridHelper.material.opacity = 0.15;
             scene.add(gridHelper);
 
-            // --- BACKGROUND ADDITION 2: ADVANCED STARFIELD ---
             const starGeo = new THREE.BufferGeometry();
             const starCount = 6000;
             const starPos = new Float32Array(starCount * 3);
-            const starVelocities = []; // To make them move
-
+            const starVelocities = []; 
             for(let i=0; i<starCount * 3; i+=3) {
-                starPos[i] = (Math.random() - 0.5) * 600; // x
-                starPos[i+1] = (Math.random() - 0.5) * 600; // y
-                starPos[i+2] = (Math.random() - 0.5) * 400; // z
-                starVelocities.push({
-                    z: 0.2 + Math.random() * 0.5 // Move towards camera
-                });
+                starPos[i] = (Math.random() - 0.5) * 600; 
+                starPos[i+1] = (Math.random() - 0.5) * 600; 
+                starPos[i+2] = (Math.random() - 0.5) * 400; 
+                starVelocities.push({ z: 0.2 + Math.random() * 0.5 });
             }
             starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
             const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, transparent: true, opacity: 0.8 });
             const starField = new THREE.Points(starGeo, starMat);
             scene.add(starField);
 
-
-            // --- Objects ---
             const laptopGroup = new THREE.Group();
             const baseGeo = new THREE.BoxGeometry(12, 0.5, 8);
             const baseMat = new THREE.MeshBasicMaterial({ color: 0x1a1a2e, wireframe: false, transparent: true, opacity: 0.8 });
-            const base = new THREE.Mesh(baseGeo, baseMat);
-            laptopGroup.add(base);
-            
+            const base = new THREE.Mesh(baseGeo, baseMat); laptopGroup.add(base);
             const screenGeo = new THREE.BoxGeometry(12, 8, 0.5);
             const screenMat = new THREE.MeshBasicMaterial({ color: 0x0f0f1a, wireframe: false });
             const screen = new THREE.Mesh(screenGeo, screenMat);
             screen.position.y = 4; screen.position.z = -4.25; screen.rotation.x = 0.2;
             laptopGroup.add(screen);
-            
             const screenContent = new THREE.PlaneGeometry(11.5, 7.5);
             const screenContentMat = new THREE.MeshBasicMaterial({ color: 0x00f2ff, side: THREE.DoubleSide, transparent: true, opacity: 0.1 });
             const screenContentMesh = new THREE.Mesh(screenContent, screenContentMat);
             screenContentMesh.position.y = 4; screenContentMesh.position.z = -4; screenContentMesh.rotation.x = 0.2;
             laptopGroup.add(screenContentMesh);
+            laptopGroup.position.set(15, 0, 0); scene.add(laptopGroup);
 
-            laptopGroup.position.set(15, 0, 0); 
-            scene.add(laptopGroup);
-
-            // Floating Objects
             const floatingObjectsGroup = new THREE.Group();
-            const geoList = [
-                new THREE.TorusKnotGeometry(2.5, 0.7, 100, 16),
-                new THREE.IcosahedronGeometry(2.5, 0),
-                new THREE.OctahedronGeometry(2.5, 0)
-            ];
+            const geoList = [new THREE.TorusKnotGeometry(2.5, 0.7, 100, 16), new THREE.IcosahedronGeometry(2.5, 0), new THREE.OctahedronGeometry(2.5, 0)];
             const wireMat = new THREE.MeshBasicMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.08 });
-            
             for(let i=0; i<5; i++) {
                 const mesh = new THREE.Mesh(geoList[i % 3], wireMat);
-                mesh.position.set(
-                    (Math.random() - 0.5) * 50,
-                    (Math.random() - 0.5) * 30,
-                    (Math.random() - 0.5) * 20 - 10
-                );
-                mesh.userData = { 
-                    rotSpeed: (Math.random() - 0.5) * 0.01,
-                    floatSpeed: 0.01 + Math.random() * 0.02 
-                };
+                mesh.position.set((Math.random() - 0.5) * 50, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 20 - 10);
+                mesh.userData = { rotSpeed: (Math.random() - 0.5) * 0.01, floatSpeed: 0.01 + Math.random() * 0.02 };
                 floatingObjectsGroup.add(mesh);
             }
             scene.add(floatingObjectsGroup);
 
-            // Lights
             const light1 = new THREE.PointLight(0x00f2ff, 2, 50);
             const light2 = new THREE.PointLight(0x7000ff, 2, 50);
             scene.add(light1, light2);
 
-            // --- ANIMATION LOOP ---
-            let t = 0; 
-            const clock = new THREE.Clock();
+            // MOUSE PARALLAX
+            let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX);
+                mouseY = (event.clientY - windowHalfY);
+            });
 
+            let t = 0; const clock = new THREE.Clock();
             const animate = () => {
                 requestAnimationFrame(animate);
                 t = clock.getElapsedTime();
+                if(t < 2) camera.position.z = 60 - (30 * t);
+                
+                targetX = mouseX * 0.001; targetY = mouseY * 0.001;
+                camera.rotation.y += 0.05 * ( - targetX - camera.rotation.y );
+                camera.rotation.x += 0.05 * ( - targetY - camera.rotation.x );
 
-                // Intro Camera Fly-in
-                if(t < 2) {
-                    camera.position.z = 60 - (30 * t);
-                }
-
-                // --- Animate Grid ---
-                // Move grid towards camera to simulate forward movement
                 gridHelper.position.z = (t * 10) % 10; 
-
-                // --- Animate Stars ---
                 const positions = starField.geometry.attributes.position.array;
                 for(let i=2; i<starCount * 3; i+=3) {
-                    positions[i] += starVelocities[(i-2)/3].z; // Move Z
-                    if(positions[i] > 100) {
-                        positions[i] = -300; // Reset to far back
-                    }
+                    positions[i] += starVelocities[(i-2)/3].z; if(positions[i] > 100) positions[i] = -300;
                 }
                 starField.geometry.attributes.position.needsUpdate = true;
-
-
-                // Continuous Animation
                 laptopGroup.position.y = Math.sin(t * 1) * 0.5;
                 laptopGroup.rotation.y = -0.3 + Math.sin(t * 0.2) * 0.1;
-
                 floatingObjectsGroup.children.forEach(mesh => {
-                    mesh.rotation.x += mesh.userData.rotSpeed;
-                    mesh.rotation.y += mesh.userData.rotSpeed;
+                    mesh.rotation.x += mesh.userData.rotSpeed; mesh.rotation.y += mesh.userData.rotSpeed;
                     mesh.position.y += Math.sin(t * mesh.userData.floatSpeed) * 0.02;
                 });
-
-                // Lights Orbit
-                light1.position.x = Math.sin(t * 0.5) * 20;
-                light1.position.z = Math.cos(t * 0.5) * 20;
-                light2.position.x = Math.sin(t * 0.3 + Math.PI) * 25;
-                light2.position.z = Math.cos(t * 0.3 + Math.PI) * 25;
-
+                light1.position.x = Math.sin(t * 0.5) * 20; light1.position.z = Math.cos(t * 0.5) * 20;
+                light2.position.x = Math.sin(t * 0.3 + Math.PI) * 25; light2.position.z = Math.cos(t * 0.3 + Math.PI) * 25;
                 renderer.render(scene, camera);
             };
             animate();
 
-            // --- GSAP SCROLL TRIGGERS ---
             gsap.registerPlugin(ScrollTrigger);
-
             window.addEventListener('scroll', () => {
                 const scrollY = window.scrollY;
                 const maxScroll = document.body.scrollHeight - window.innerHeight;
                 const scrollPercent = scrollY / maxScroll;
-
-                // Camera Pan based on scroll
-                camera.position.x = 15 - (scrollPercent * 15); 
-                camera.position.y = 10 + (scrollPercent * 20);  
-                camera.lookAt(0, 0, 0);
-                
+                camera.position.x = 15 - (scrollPercent * 15); camera.position.y = 10 + (scrollPercent * 20); camera.lookAt(0, 0, 0);
                 floatingObjectsGroup.rotation.y = scrollPercent * Math.PI * 2;
-                floatingObjectsGroup.rotation.z = scrollPercent * 0.5;
-
                 laptopGroup.position.y = Math.sin(t * 1) * 0.5 - (scrollPercent * 20);
                 laptopGroup.rotation.x = 0.2 - (scrollPercent * 0.5);
             });
-
-            // Resize
             window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight);
             });
         };
 
-        // --- 4. UI LOGIC ---
+        // --- 3. UI LOGIC ---
         const pages = [
-            'projects-websites', 'projects-apps', 'projects-games', 'projects-ms', 'projects-production', 'projects-design', 'projects-ui',
-            'cert-prod', 'cert-prog', 'cert-tech', 'cert-life',
-            'books-imp', 'books-mine',
-            'tips-prog', 'tips-life', 'tips-prod',
-            'challenges', 'tools'
+            'projects-websites', 'projects-apps', 'projects-games', 'projects-ms', 'projects-production', 'projects-design',
+            'cert-frontend', 'cert-backend', 'cert-prog', 'cert-design', 'cert-video', 'cert-tech', 'cert-ms', 'cert-life', 'cert-app',
+            'books-imp', 'books-mine', 'tips-prog', 'tips-life', 'tips-prod', 'challenges'
         ];
+        
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLnIxCHuL3EpadcaJ6a0DO1NFM0j7N5nN0XMjFfX36Bug29d114AtZgEHLte9xFqmMYR4vn3_epqg6/pub?output=csv";
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -861,52 +856,65 @@
                 page.id = id;
                 page.appendChild(clone);
                 page.querySelector('.page-title').setAttribute('data-i18n', id);
-                page.querySelector('.page-title').textContent = id.replace('projects-', '').replace('-', ' ').toUpperCase();
+                page.querySelector('.page-title').textContent = id.replace(/projects-|cert-/, '').replace('-', ' ').toUpperCase();
                 page.querySelector('.dynamic-content-grid').id = `grid-${id}`;
                 document.getElementById('ui-layer').appendChild(page);
             });
 
-            // GSAP Intro Animation
+            // GSAP Intro Animation (Vertical Only to Fix RTL Jump)
             const tl = gsap.timeline();
-            tl.to('.hello-badge', { opacity: 1, x: 0, duration: 1, ease: "power3.out" })
+            tl.to('.hello-badge', { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
               .to('.hero-title', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5")
-              .to('.quote-card', { opacity: 1, x: 0, duration: 1, ease: "power3.out" }, "-=0.5")
-              .to('.social-row', { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5")
-              .to('.cta-row', { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5");
+              .to('.quote-card', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5")
+              .to('.social-row', { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5");
+              // CTA Row removed
 
+            // SCROLL ANIMATIONS
             gsap.utils.toArray('.section-title').forEach(title => {
-                gsap.from(title, {
-                    scrollTrigger: { trigger: title, start: "top 80%" },
-                    y: 50, opacity: 0, duration: 1, ease: "power3.out"
+                gsap.from(title, { scrollTrigger: { trigger: title, start: "top 80%" }, y: 50, opacity: 0, duration: 1, ease: "power3.out" });
+            });
+
+            gsap.utils.toArray('.menu-grid, .dynamic-content-grid').forEach(grid => {
+                gsap.from(grid.children, {
+                    scrollTrigger: { trigger: grid, start: "top 85%" },
+                    y: 30, opacity: 0, duration: 0.6, stagger: 0.05, ease: "back.out(1.7)"
                 });
             });
 
-            initTyped();
-            
-            Papa.parse(CSV_URL, {
-                download: true, header: true,
-                complete: (res) => distributeData(res.data)
-            });
-
-            // 3D Tilt Effect for all tilt-card elements
-            document.addEventListener('mousemove', (e) => {
-                document.querySelectorAll('.tilt-card').forEach(card => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    if(x > -50 && x < rect.width + 50 && y > -50 && y < rect.height + 50) {
-                        const rotateX = ((y - rect.height/2) / 15) * -1;
-                        const rotateY = ((x - rect.width/2) / 15);
-                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-                    } else {
-                        card.style.transform = 'none';
+            // Re-trigger animations when changing pages
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === "class") {
+                        const target = mutation.target;
+                        if (target.classList.contains('active')) {
+                            const grid = target.querySelector('.dynamic-content-grid');
+                            if(grid) {
+                                gsap.fromTo(grid.children, 
+                                    { y: 20, opacity: 0 }, 
+                                    { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: "power2.out" }
+                                );
+                            }
+                        }
                     }
                 });
             });
+            document.querySelectorAll('.page').forEach(p => observer.observe(p, { attributes: true }));
 
+            initTyped();
+            Papa.parse(CSV_URL, { download: true, header: true, complete: (res) => distributeData(res.data) });
             updateLanguage(document.getElementById('langSelect').value);
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => { document.querySelector('.nav-menu').classList.remove('active'); });
+            });
         });
+
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading-screen');
+            loader.style.opacity = '0'; loader.style.visibility = 'hidden';
+        });
+
+        function toggleMobileMenu() { document.querySelector('.nav-menu').classList.toggle('active'); }
 
         function initTyped() {
             const lang = document.getElementById('langSelect').value;
@@ -929,17 +937,11 @@
             window.scrollTo(0, 0);
         }
 
-        // --- FIX: Custom Go Back Function ---
         function goBack() {
             const currentId = document.querySelector('.page.active').id;
-            if (currentId.startsWith('projects-')) {
-                showPage('projects');
-            } else if (currentId.startsWith('cert-')) {
-                showPage('certificates');
-            } else {
-                // Default to Knowledge for books, tips, tools, etc.
-                showPage('knowledge');
-            }
+            if (currentId.startsWith('projects-')) showPage('projects');
+            else if (currentId.startsWith('cert-')) showPage('certificates');
+            else showPage('knowledge');
         }
 
         function getTargetPageId(category) {
@@ -949,54 +951,68 @@
             if (cat.includes("game")) return "projects-games";
             if (cat.includes("microsoft") || cat.includes("office") || cat.includes("excel") || cat.includes("word")) return "projects-ms";
             if (cat.includes("production") || cat.includes("video")) return "projects-production";
-            if (cat.includes("design") && !cat.includes("ui") && !cat.includes("cert")) return "projects-design";
-            if (cat.includes("interface") || cat.includes("ui")) return "projects-ui";
-            if (cat.includes("cert") && (cat.includes("prod") || cat.includes("design"))) return "cert-prod";
-            if (cat.includes("cert") && cat.includes("prog")) return "cert-prog";
-            if (cat.includes("cert") && cat.includes("tech")) return "cert-tech";
-            if (cat.includes("cert") && cat.includes("life")) return "cert-life";
-            if (cat.includes("cert")) return "cert-prog";
+            if (cat.includes("design") && !cat.includes("ui")) return "projects-design";
+            
+            if (cat.includes("frontend") || cat.includes("html") || cat.includes("css") || cat.includes("react") || cat.includes("vue")) return "cert-frontend";
+            if (cat.includes("backend") || cat.includes("node") || cat.includes("api") || cat.includes("database")) return "cert-backend";
+            if (cat.includes("programming") || cat.includes("code") || cat.includes("c#") || cat.includes("python")) return "cert-prog";
+            if (cat.includes("design") || cat.includes("ui") || cat.includes("ux")) return "cert-design";
+            if (cat.includes("video") || cat.includes("editing") || cat.includes("premiere") || cat.includes("after")) return "cert-video";
+            if (cat.includes("microsoft")) return "cert-ms";
+            if (cat.includes("app")) return "cert-app";
+            if (cat.includes("life")) return "cert-life";
+            if (cat.includes("tech")) return "cert-tech";
+            
             if (cat.includes("book") && cat.includes("mine")) return "books-mine";
             if (cat.includes("book")) return "books-imp";
             if (cat.includes("tip") && cat.includes("prog")) return "tips-prog";
             if (cat.includes("tip") && cat.includes("life")) return "tips-life";
             if (cat.includes("tip") && cat.includes("prod")) return "tips-prod";
-            if (cat.includes("tip")) return "tips-prog";
             if (cat.includes("challenge")) return "challenges";
-            if (cat.includes("tool")) return "tools";
             return null;
         }
 
+        // --- UPDATED: Distribute Data with Random Colors & 3D Tilt ---
+        const neonColors = [
+            'var(--accent-primary)',   // Cyan
+            'var(--accent-secondary)', // Purple
+            'var(--accent-third)',     // Pink
+            'var(--accent-green)',     // Green
+            'var(--accent-orange)'     // Orange
+        ];
+
         function distributeData(data) {
-            data.forEach(item => {
+            data.forEach((item, index) => {
                 const title = item['Title'] || item['title'] || 'Untitled';
                 const desc = item['Description'] || item['description'] || '';
                 const category = item['Category'] || item['category'] || '';
                 const link = item['Link'] || item['link'] || '';
-                const icon = item['Icon'] || item['icon'] || 'fa-solid fa-folder';
                 const pageId = getTargetPageId(category);
                 
                 if (pageId) {
                     const grid = document.getElementById(`grid-${pageId}`);
                     if (grid) {
                         const card = document.createElement('div');
-                        card.className = 'project-card tilt-card';
-                        let onClickAction = '';
+                        card.className = 'project-card tilt-card'; 
+                        
+                        const color = neonColors[index % neonColors.length];
+                        card.style.borderColor = color;
+                        card.style.boxShadow = `0 0 10px ${color}20`; 
+                        
                         let type = 'LINK';
-                        if (link.toLowerCase().includes('youtube') || link.toLowerCase().includes('youtu.be')) {
-                            onClickAction = `openVideoModal('${link}')`; type = 'VIDEO';
-                        } else if (link.match(/\.(jpeg|jpg|gif|png)$/i)) {
-                            onClickAction = `openImageModal('${link}')`; type = 'IMAGE';
-                        } else { onClickAction = `window.open('${link}', '_blank')`; }
+                        if (link.toLowerCase().includes('youtube') || link.toLowerCase().includes('youtu.be')) type = 'VIDEO';
+                        else if (link.match(/\.(jpeg|jpg|gif|png)$/i)) type = 'IMAGE';
+
+                        card.onclick = function() {
+                            if (type === 'VIDEO') openVideoModal(link);
+                            else if (type === 'IMAGE') openImageModal(link);
+                            else window.open(link, '_blank');
+                        };
 
                         card.innerHTML = `
-                            <div class="card-visual"><i class="${icon}"></i></div>
                             <div class="card-content">
-                                <div style="font-size:0.7rem; color:var(--accent-primary); margin-bottom:0.5rem; font-weight:700;">${type}</div>
-                                <div class="card-title">${title}</div>
-                                <div class="card-desc">${desc}</div>
+                                <div class="card-title" style="color:${color}">${title}</div>
                             </div>`;
-                        card.onclick = () => eval(onClickAction);
                         grid.appendChild(card);
                     }
                 }
@@ -1016,14 +1032,31 @@
                 const titleEl = document.querySelector(`#${p} .page-title`);
                 if (titleEl) {
                     let titleKey = p;
-                    if(trans[titleKey]) { titleEl.textContent = trans[titleKey]; } 
-                    else { titleEl.textContent = p.replace('projects-', '').replace('-', ' ').toUpperCase(); }
+                    if(trans[titleKey]) titleEl.textContent = trans[titleKey]; 
+                    else titleEl.textContent = p.replace(/projects-|cert-/, '').replace('-', ' ').toUpperCase();
                 }
             });
             initTyped();
         }
         
         document.getElementById('langSelect').addEventListener('change', (e) => updateLanguage(e.target.value));
+
+        // --- 3D TILT EFFECT JS ---
+        document.addEventListener('mousemove', (e) => {
+            document.querySelectorAll('.tilt-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if(x > -50 && x < rect.width + 50 && y > -50 && y < rect.height + 50) {
+                    const rotateX = ((y - rect.height/2) / 15) * -1;
+                    const rotateY = ((x - rect.width/2) / 15);
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                } else {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                }
+            });
+        });
 
         // Modals
         const modal = document.getElementById('mediaModal');
