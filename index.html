@@ -47,8 +47,8 @@
 
         /* RTL Specifics */
         [dir="rtl"] body { font-family: var(--font-ar); }
-        [dir="rtl"] .hero-split { flex-direction: column-reverse; } /* Stacked on mobile by default logic, handled in media query */
-        [dir="rtl"] .hero-left { align-items: center; text-align: center; } /* Center alignment for RTL compatibility */
+        [dir="rtl"] .hero-split { flex-direction: column-reverse; } 
+        [dir="rtl"] .hero-left { align-items: center; text-align: center; } 
         [dir="rtl"] .nav-menu { margin-left: 0; margin-right: auto; }
         [dir="rtl"] .menu-section h3 { border-left: none; border-right: 4px solid var(--accent-secondary); padding-left: 0; padding-right: 1rem; }
 
@@ -122,26 +122,23 @@
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
-            align-items: flex-start; /* Default align left */
+            align-items: flex-start; 
             text-align: left; 
             z-index: 2; 
             perspective: 1000px; 
             width: 100%;
         }
         
-        /* RTL Fix for alignment */
-        [dir="rtl"] .hero-left { align-items: flex-start; text-align: right; } /* Keep it standard right-aligned for RTL text */
-        [dir="ltr"] .hero-left { align-items: flex-start; text-align: left; } /* Keep it standard left-aligned for LTR text */
+        [dir="rtl"] .hero-left { align-items: flex-start; text-align: right; } 
+        [dir="ltr"] .hero-left { align-items: flex-start; text-align: left; } 
 
-        /* Badge Styles (Moved visually via HTML) */
         .hello-badge {
             color: var(--accent-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; 
             margin-bottom: 1rem;
             display: inline-block; padding: 0.5rem 1.2rem; background: rgba(0, 242, 255, 0.1); border-radius: 20px; font-size: 0.9rem;
             border: 1px solid rgba(0, 242, 255, 0.2); 
-            /* Removed translateX to fix RTL jumping */
             opacity: 0; 
-            transform: translateY(20px); /* Vertical animation only */
+            transform: translateY(20px); 
         }
         
         .hero-title {
@@ -163,7 +160,7 @@
             backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
             padding: 1.5rem 2rem; border-radius: 20px; margin-bottom: 2.5rem; position: relative;
             opacity: 0; 
-            transform: translateY(20px); /* Vertical animation */
+            transform: translateY(20px); 
         }
         
         .social-row { display: flex; gap: 1rem; margin-bottom: 2.5rem; transform: translateY(20px); opacity: 0; }
@@ -173,8 +170,6 @@
         }
         .social-link:hover { background: var(--accent-primary); color: #000; transform: translateY(-5px) scale(1.1); }
         
-        /* CTA Row Removed as requested */
-
         /* --- TECHNICAL SKILLS --- */
         .section-title { text-align: center; font-size: 2.5rem; margin: 6rem 0 3rem; color: #fff; font-weight: 800; position: relative; display: inline-block; width: 100%; }
         .section-title span { color: var(--accent-primary); }
@@ -240,18 +235,18 @@
         .menu-card:hover i { color: var(--accent-primary); transform: scale(1.1); }
         .menu-card p { font-size: 1rem; font-weight: 700; color: #fff; }
 
-        /* --- UPDATED: Services Color Change on Hover --- */
+        /* --- Services Color Change on Hover --- */
         .services-grid .menu-card:hover {
-            background: var(--accent-primary); /* Full Cyan Background */
+            background: var(--accent-primary); 
             border-color: var(--accent-primary);
         }
         .services-grid .menu-card:hover i, 
         .services-grid .menu-card:hover h3, 
         .services-grid .menu-card:hover p {
-            color: #000 !important; /* Dark text for contrast */
+            color: #000 !important; 
         }
 
-        /* --- Projects/Cert Cards (3D Glass + Minimal + Colorful) --- */
+        /* --- Projects/Cert Cards --- */
         .dynamic-content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; perspective: 1000px; }
         
         .project-card { 
@@ -314,7 +309,7 @@
         }
         [dir="rtl"] .contact-form { text-align: right; }
 
-        /* --- Contact (3D Let's Connect) --- */
+        /* --- Contact --- */
         .contact-grid { 
             display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; margin-top: 5rem; 
             perspective: 1500px; transform: rotateX(5deg);
@@ -357,7 +352,7 @@
         /* --- Responsive --- */
         @media (max-width: 1024px) {
             .hero-split { flex-direction: column-reverse; text-align: center; gap: 3rem; padding-top: 2rem; }
-            .hero-left { align-items: center !important; text-align: center !important; } /* Force center on mobile */
+            .hero-left { align-items: center !important; text-align: center !important; } 
             .hero-title { font-size: 3rem; }
             
             .nav-menu { display: none; } 
@@ -429,7 +424,7 @@
                                 <span data-i18n="helloItsMe">Hello, It's Me</span>
                                 <strong data-i18n="heroName">Omar Hamdi</strong>
                             </h1>
-                            <!-- MOVED: Creative Developer Badge moved HERE (Under Name) -->
+                            <!-- Creative Developer Badge -->
                             <span class="hello-badge" data-i18n="heroBadge">Creative Developer</span>
                             
                             <span class="typed-text"></span>
@@ -445,13 +440,11 @@
                                 <a href="https://www.youtube.com/@omarhmadu" target="_blank" class="social-link"><i class="fa-brands fa-youtube"></i></a>
                                 <a href="https://www.tiktok.com/@omarhamdu1" target="_blank" class="social-link"><i class="fa-brands fa-tiktok"></i></a>
                             </div>
-                            
-                            <!-- REMOVED: Hire Me Button -->
                         </div>
                     </div>
                 </div>
 
-                <!-- Services Section (With Color Change on Hover) -->
+                <!-- Services Section -->
                 <h2 class="section-title" data-i18n="servicesTitle">My <span>Services</span></h2>
                 <div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; margin-bottom: 4rem;">
                     <div class="menu-card tilt-card">
@@ -861,13 +854,12 @@
                 document.getElementById('ui-layer').appendChild(page);
             });
 
-            // GSAP Intro Animation (Vertical Only to Fix RTL Jump)
+            // GSAP Intro Animation
             const tl = gsap.timeline();
             tl.to('.hello-badge', { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
               .to('.hero-title', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5")
               .to('.quote-card', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5")
               .to('.social-row', { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5");
-              // CTA Row removed
 
             // SCROLL ANIMATIONS
             gsap.utils.toArray('.section-title').forEach(title => {
@@ -944,31 +936,45 @@
             else showPage('knowledge');
         }
 
+        // --- UPDATED LOGIC: getTargetPageId ---
         function getTargetPageId(category) {
             const cat = (category || "").toLowerCase().trim();
+            
+            // --- PROJECTS SECTION ---
             if (cat.includes("website")) return "projects-websites";
             if (cat.includes("app") && !cat.includes("microsoft")) return "projects-apps";
             if (cat.includes("game")) return "projects-games";
-            if (cat.includes("microsoft") || cat.includes("office") || cat.includes("excel") || cat.includes("word")) return "projects-ms";
+            
+            // --- FIX: Exclude 'cert' from Microsoft/Office checks ---
+            // Only go to MS Projects if it doesn't mention "cert"
+            if ((cat.includes("microsoft") || cat.includes("office") || cat.includes("excel") || cat.includes("word")) && !cat.includes("cert")) {
+                return "projects-ms";
+            }
+
             if (cat.includes("production") || cat.includes("video")) return "projects-production";
             if (cat.includes("design") && !cat.includes("ui")) return "projects-design";
             
+            // --- CERTIFICATES SECTION ---
             if (cat.includes("frontend") || cat.includes("html") || cat.includes("css") || cat.includes("react") || cat.includes("vue")) return "cert-frontend";
             if (cat.includes("backend") || cat.includes("node") || cat.includes("api") || cat.includes("database")) return "cert-backend";
             if (cat.includes("programming") || cat.includes("code") || cat.includes("c#") || cat.includes("python")) return "cert-prog";
             if (cat.includes("design") || cat.includes("ui") || cat.includes("ux")) return "cert-design";
             if (cat.includes("video") || cat.includes("editing") || cat.includes("premiere") || cat.includes("after")) return "cert-video";
-            if (cat.includes("microsoft")) return "cert-ms";
+            if (cat.includes("tech")) return "cert-tech";
             if (cat.includes("app")) return "cert-app";
             if (cat.includes("life")) return "cert-life";
-            if (cat.includes("tech")) return "cert-tech";
             
+            // --- This now correctly catches "Microsoft Cert" ---
+            if (cat.includes("microsoft")) return "cert-ms"; 
+            
+            // --- KNOWLEDGE SECTION ---
             if (cat.includes("book") && cat.includes("mine")) return "books-mine";
             if (cat.includes("book")) return "books-imp";
             if (cat.includes("tip") && cat.includes("prog")) return "tips-prog";
             if (cat.includes("tip") && cat.includes("life")) return "tips-life";
             if (cat.includes("tip") && cat.includes("prod")) return "tips-prod";
             if (cat.includes("challenge")) return "challenges";
+            
             return null;
         }
 
