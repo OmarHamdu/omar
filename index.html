@@ -945,9 +945,9 @@
             if (cat.includes("app") && !cat.includes("microsoft")) return "projects-apps";
             if (cat.includes("game")) return "projects-games";
             
-            // --- FIX: Exclude 'cert' from Microsoft/Office checks ---
-            // Only go to MS Projects if it doesn't mention "cert"
-            if ((cat.includes("microsoft") || cat.includes("office") || cat.includes("excel") || cat.includes("word")) && !cat.includes("cert")) {
+            // --- FIX: Exclude 'certificates' strictly from Microsoft/Office checks ---
+            // Updated as requested to check for "certificates" explicitly
+            if ((cat.includes("microsoft") || cat.includes("office") || cat.includes("excel") || cat.includes("word")) && !cat.includes("certificates")) {
                 return "projects-ms";
             }
 
@@ -964,7 +964,7 @@
             if (cat.includes("app")) return "cert-app";
             if (cat.includes("life")) return "cert-life";
             
-            // --- This now correctly catches "Microsoft Cert" ---
+            // --- This now correctly catches "Certificates Microsoft" ---
             if (cat.includes("microsoft")) return "cert-ms"; 
             
             // --- KNOWLEDGE SECTION ---
