@@ -375,6 +375,17 @@
             .contact-grid { transform: rotateX(0deg); gap: 1.5rem; }
             .contact-card { width: 80px; height: 80px; font-size: 2rem; }
         }
+        
+        /* Utility for buttons */
+        .btn-primary {
+            background: var(--accent-primary); color: #000; border: none; padding: 1rem 2.5rem;
+            border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1rem;
+            transition: 0.3s; box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px); box-shadow: 0 0 25px rgba(0, 242, 255, 0.6);
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -485,10 +496,8 @@
                         <h3 class="skill-title">Production & Design</h3>
                         <div class="skill-tags">
                             <span class="skill-tag">Photoshop</span><span class="skill-tag">Illustrator</span>
-                            <span class="skill-tag">Premiere</span>
-                            <span class="skill-tag">After Effects</span>
-                            <span class="skill-tag">UI/UX Design</span>
-                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Premiere</span><span class="skill-tag">After Effects</span>
+                            <span class="skill-tag">UI/UX Design</span><span class="skill-tag">Figma</span>
                             <span class="skill-tag">Blender</span>
                         </div>
                     </div>
@@ -607,7 +616,7 @@
             </div>
         </div>
 
-        <!-- Contact -->
+        <!-- Contact (UPDATED) -->
         <div class="page" id="contact">
             <div class="container" style="text-align: center;">
                 <div class="page-header" style="margin-bottom: 4rem; padding-top: 2rem;">
@@ -634,16 +643,14 @@
                 </div>
 
                 <div class="contact-grid">
+                    <!-- LinkedIn -->
                     <a href="https://www.linkedin.com/in/omar-hamdu" target="_blank" class="contact-card"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <!-- GitHub -->
                     <a href="https://github.com/OmarHamdu" target="_blank" class="contact-card"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://www.facebook.com/share/16oWZsJpVE/" target="_blank" class="contact-card"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/omar_hamdu_1" target="_blank" class="contact-card"><i class="fa-brands fa-instagram"></i></a>
+                    <!-- YouTube -->
                     <a href="https://www.youtube.com/@omarhmadu" target="_blank" class="contact-card"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="https://www.tiktok.com/@omarhamdu1" target="_blank" class="contact-card"><i class="fa-brands fa-tiktok"></i></a>
+                    <!-- Telegram 1 -->
                     <a href="https://t.me/OamrHamdi" target="_blank" class="contact-card"><i class="fa-brands fa-telegram"></i></a>
-                    <a href="https://t.me/Gaming402" target="_blank" class="contact-card"><i class="fa-brands fa-telegram"></i></a>
-                    <a href="https://wa.me/201508874734" target="_blank" class="contact-card"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="https://wa.me/201551383361" target="_blank" class="contact-card"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
                 <div style="margin-top: 3rem;"><button class="btn-primary" onclick="showPage('home')" data-i18n="backHome">Back Home</button></div>
             </div>
